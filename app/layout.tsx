@@ -37,7 +37,6 @@ export default function RootLayout({
       className={`${dmSans.variable} ${orbitron.variable} ${jetbrains.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-text">
-        <div className="scanlines" aria-hidden />
         {children}
       </body>
     </html>

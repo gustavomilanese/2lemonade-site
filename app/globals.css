@@ -19,6 +19,7 @@
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-neon: var(--neon);
+  --color-neon-hot: var(--neon-hot);
   --color-magenta: var(--magenta);
   --color-gold: var(--gold);
   --color-text: var(--text);
@@ -42,46 +43,124 @@ body {
   font-family: var(--font-orbitron), system-ui, sans-serif;
 }
 
-/* Background grid + vignette */
-.bg-game {
-  background-color: var(--bg);
-  background-image:
-    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(46, 242, 198, 0.14), transparent 55%),
-    radial-gradient(ellipse 80% 50% at 100% 50%, rgba(255, 78, 205, 0.08), transparent 50%),
-    linear-gradient(rgba(46, 242, 198, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(46, 242, 198, 0.04) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
-  background-position: center, center, 0 0, 0 0;
-}
-
-.scanlines::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 50;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.09) 2px,
-    rgba(0, 0, 0, 0.09) 4px
-  );
-  opacity: 0.35;
-}
-
-@keyframes hud-pulse {
+@keyframes saas-float-y {
   0%,
   100% {
-    box-shadow: 0 0 0 1px var(--border), 0 0 24px var(--glow);
+    transform: translateY(0) rotate(11deg);
   }
   50% {
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--neon) 55%, transparent),
-      0 0 36px var(--glow);
+    transform: translateY(-14px) rotate(8deg);
   }
 }
 
-@keyframes float-y {
+@keyframes saas-float-y-rev {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(16px) scale(1.06);
+  }
+}
+
+.animate-saas-float {
+  animation: saas-float-y 5.4s ease-in-out infinite;
+}
+
+.animate-saas-float-reverse {
+  animation: saas-float-y-rev 6.5s ease-in-out infinite;
+}
+
+/* Demo: scroll simulado por una landing en mobile */
+/* Contenido con fotos reales: más alto; pausas para leer */
+/* Capturas PDF altas (MotivarCare, Pristine Carpet): tope alineado al viewport del mock phone */
+@keyframes landing-walk-scroll {
+  0%,
+  10% {
+    transform: translateY(0);
+  }
+  22%,
+  32% {
+    transform: translateY(-172px);
+  }
+  44%,
+  54% {
+    transform: translateY(-292px);
+  }
+  66%,
+  76% {
+    transform: translateY(-358px);
+  }
+  88%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Fallback compacto si alguna landing no usa captura vertical larga */
+@keyframes landing-walk-scroll-compact {
+  0%,
+  10% {
+    transform: translateY(0);
+  }
+  22%,
+  32% {
+    transform: translateY(-52px);
+  }
+  44%,
+  54% {
+    transform: translateY(-102px);
+  }
+  66%,
+  76% {
+    transform: translateY(-128px);
+  }
+  88%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-landing-walk-scroll {
+  animation: landing-walk-scroll 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-landing-walk-scroll-compact {
+  animation: landing-walk-scroll-compact 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Captura vertical tipo landing mobile (~802×2000 en /public) */
+@keyframes landing-walk-scroll-motivarc {
+  0%,
+  10% {
+    transform: translateY(0);
+  }
+  22%,
+  32% {
+    transform: translateY(-178px);
+  }
+  44%,
+  54% {
+    transform: translateY(-308px);
+  }
+  66%,
+  76% {
+    transform: translateY(-332px);
+  }
+  88%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-landing-walk-scroll-motivarc {
+  animation: landing-walk-scroll-motivarc 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes mock-float {
   0%,
   100% {
     transform: translateY(0);
@@ -91,59 +170,19 @@ body {
   }
 }
 
-.animate-hud-pulse {
-  animation: hud-pulse 4s ease-in-out infinite;
+.animate-mock-float {
+  animation: mock-float 5.5s ease-in-out infinite;
 }
 
-.animate-float {
-  animation: float-y 5s ease-in-out infinite;
-}
-
-@keyframes shimmer {
+@keyframes grid-drift {
   0% {
-    background-position: 200% 0;
+    background-position: 0 0;
   }
   100% {
-    background-position: -200% 0;
+    background-position: 48px 48px;
   }
 }
 
-.text-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--text) 0%,
-    var(--neon-hot) 45%,
-    var(--magenta) 55%,
-    var(--text) 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: shimmer 7s linear infinite;
-}
-
-.corner-frame {
-  position: relative;
-}
-.corner-frame::before,
-.corner-frame::after {
-  content: "";
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-color: var(--neon);
-  border-style: solid;
-  opacity: 0.85;
-  pointer-events: none;
-}
-.corner-frame::before {
-  top: 0;
-  left: 0;
-  border-width: 2px 0 0 2px;
-}
-.corner-frame::after {
-  bottom: 0;
-  right: 0;
-  border-width: 0 2px 2px 0;
+.animate-grid-drift {
+  animation: grid-drift 28s linear infinite;
 }
