@@ -1,14 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /** Refuerzo para hosting (p. ej. Vercel): reglas explícitas además de `redirect()` en páginas. */
-  async redirects() {
-    return [
-      { source: "/", destination: "/l/saas", permanent: false },
-      { source: "/l", destination: "/l/saas", permanent: false },
-    ];
-  },
+  /** Export estático para hosting tipo Hostinger (subir carpeta `dist` / contenido de `out`). */
+  output: "export",
+  /** Rutas tipo `/l/saas/` con `index.html` (mejor en Apache / Hostinger). */
+  trailingSlash: true,
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

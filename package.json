@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build --webpack",
-    "start": "next start",
+    "export:hostinger": "next build --webpack && rm -rf dist && cp -R out dist && echo \"OK: subí el CONTENIDO de la carpeta dist/ a public_html\"",
+    "start": "npx --yes serve@14 out",
     "lint": "eslint"
   },
   "dependencies": {
