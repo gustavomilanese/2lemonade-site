@@ -1,0 +1,5 @@
+# Hostinger (Apache): si alguien entra con la URL vieja /l/saas/, va a la raíz
+<IfModule mod_alias.c>
+  RedirectMatch 301 ^/l/saas/?$ /
+  RedirectMatch 301 ^/l/?$ /
+</IfModule>

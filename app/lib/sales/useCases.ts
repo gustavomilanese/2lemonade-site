@@ -9,6 +9,7 @@ export type SalesUseCase = {
   examplePresetId: MockPresetId;
   thumbCaption?: string;
   thumbPhotoSrc?: string;
+  thumbObjectPosition?: string;
 };
 
 export const SALES_USE_CASES: SalesUseCase[] = [
@@ -51,6 +52,7 @@ export const SALES_USE_CASES: SalesUseCase[] = [
     ctaHint: "Una visita, una acción: que dejen mail, agenda o mensaje.",
     examplePresetId: "motivarc",
     thumbCaption: "Ejemplo · servicio profesional",
+    thumbPhotoSrc: "/sales/marca-nueva.jpg",
   },
   {
     id: "social",
@@ -64,6 +66,8 @@ export const SALES_USE_CASES: SalesUseCase[] = [
     ctaHint: "Del post al mensaje: menos pasos, más ventas.",
     examplePresetId: "acompanarte",
     thumbCaption: "Ejemplo · cuidado en casa",
+    thumbPhotoSrc: "/sales/vendes-instagram.jpg",
+    thumbObjectPosition: "center 68%",
   },
 ];
 

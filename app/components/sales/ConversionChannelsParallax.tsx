@@ -15,7 +15,7 @@ export const MIXKIT_CAR_NIGHT_CITY_POSTER = "https://assets.mixkit.co/videos/509
 
 type Props = {
   variant?: "dark" | "minimal";
-  /** URL o ruta MP4. `muted` + `playsInline` permiten autoplay. Por defecto en `/l/saas`: Mixkit (ver constantes exportadas). */
+  /** URL o ruta MP4. `muted` + `playsInline` permiten autoplay. Por defecto: Mixkit (ver constantes exportadas). */
   mockupVideoSrc?: string;
   /** Imagen mientras carga el video (recomendado para URLs remotas). */
   mockupVideoPoster?: string;

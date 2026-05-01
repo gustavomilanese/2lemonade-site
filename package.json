@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build --webpack",
-    "export:hostinger": "next build --webpack && rm -rf dist && cp -R out dist && echo \"OK: subí el CONTENIDO de la carpeta dist/ a public_html\"",
+    "export:hostinger": "next build --webpack && DST=\"dist-$(date +%Y-%m-%d)\" && rm -rf \"$DST\" && cp -R out \"$DST\" && echo \"\" && echo \"OK → subí TODO el contenido de $DST/ a public_html (incluye _next con guion bajo y .htaccess).\" && echo \"NO uses la carpeta .next del repo: en Hostinger debe existir _next, no .next.\" && echo \"DNS: si ves error DEPLOYMENT_NOT_FOUND de Vercel, el dominio sigue apuntando a Vercel; cambiá A/CNAME o nameservers a Hostinger.\" && echo \"\"",
     "start": "npx --yes serve@14 out",
     "lint": "eslint"
   },

@@ -24,7 +24,7 @@ type Props = {
   tone?: WalkthroughTone;
   preset: MockPresetId;
   caption?: string;
-  /** Demo del teléfono un poco más grande (p. ej. hero marketing). */
+  /** Demo tipo monitor (iMac) en tamaño default o grande. */
   size?: "default" | "lg";
 };
 
@@ -149,11 +149,11 @@ export function LandingWalkthrough({
       ? "Barbería · ejemplo con turnos y WhatsApp en segundos"
       : "Ejemplo con fotos reales · probá WhatsApp e Instagram";
 
-  const imgSizes = isLg ? "(max-width: 640px) 94vw, 336px" : "(max-width: 640px) 92vw, 308px";
+  const imgSizes = isLg ? "(max-width: 1024px) 96vw, 760px" : "(max-width: 1024px) 94vw, 700px";
   const shotW = m.screenshotWidth ?? 802;
   const shotH = m.screenshotHeight ?? 2000;
-  const frameMax = isLg ? "max-w-[304px] sm:max-w-[342px]" : "max-w-[300px] sm:max-w-[318px]";
-  const phoneH = isLg ? "h-[432px] sm:h-[468px]" : "h-[400px] sm:h-[428px]";
+  const frameMax = isLg ? "max-w-[740px]" : "max-w-[680px]";
+  const screenH = isLg ? "h-[380px] sm:h-[420px]" : "h-[340px] sm:h-[380px]";
 
   return (
     <figure
@@ -179,7 +179,7 @@ export function LandingWalkthrough({
         </a>
       </div>
 
-      <div className={`relative overflow-hidden rounded-b-2xl ${phoneH}`}>
+      <div className={`relative overflow-hidden rounded-b-2xl ${screenH}`}>
         <div className={`pointer-events-auto absolute left-0 right-0 top-3 z-10 px-3 pb-3 ${scrollAnimClass}`}>
           {isScreenshot && m.screenshotSrc ? (
             <a
@@ -342,6 +342,10 @@ export function LandingWalkthrough({
       >
         {caption ?? defaultCaption}
       </figcaption>
+      <div
+        className={`pointer-events-none mx-auto mb-2 h-2.5 w-28 rounded-b-2xl ${isDark ? "bg-white/12" : "bg-slate-300/70"}`}
+        aria-hidden
+      />
     </figure>
   );
 }

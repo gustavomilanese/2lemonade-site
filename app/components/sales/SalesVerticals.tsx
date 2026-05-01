@@ -62,13 +62,11 @@ export function SalesVerticals({
                   src={src}
                   alt={`Ejemplo de landing: ${u.thumbCaption ?? preset.label}`}
                   fill
-                  className="object-cover object-[center_28%]"
+                  className="object-cover"
+                  style={{ objectPosition: u.thumbObjectPosition ?? "center 28%" }}
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 320px"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/15" />
-                <p className="absolute bottom-3 left-3 right-3 text-[10px] font-bold uppercase leading-tight tracking-wider text-white/95 drop-shadow-md sm:text-[11px]">
-                  {u.thumbCaption ?? preset.label}
-                </p>
               </div>
               <div className={`flex min-h-0 min-w-0 flex-1 flex-col ${cardBodyClassName}`}>
                 <h3 className="text-lg font-semibold leading-snug">{u.title}</h3>
