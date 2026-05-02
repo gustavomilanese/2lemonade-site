@@ -244,7 +244,7 @@ export function IceSplashSection() {
         <p className="font-display text-[11px] font-bold uppercase tracking-[0.3em] text-sky-400/80">
           Diseño que impacta
         </p>
-        <h2 className="mt-2 font-display text-5xl font-extrabold leading-[1.07] tracking-tight text-white drop-shadow-[0_2px_24px_rgba(56,189,248,0.45)] sm:text-[6.25rem]">
+        <h2 className="mt-2 font-display text-[2.85rem] font-extrabold leading-[1.04] tracking-tight text-white drop-shadow-[0_2px_24px_rgba(56,189,248,0.45)] sm:text-[6.25rem]">
           Rompemos el molde.
         </h2>
         <p className="mt-3 max-w-sm text-sm text-slate-400 sm:text-base">

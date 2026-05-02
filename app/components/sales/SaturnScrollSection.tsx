@@ -935,7 +935,7 @@ export function SaturnScrollSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative" style={{ height: '300vh' }}>
+    <section ref={sectionRef} className="relative h-[255vh] sm:h-[280vh] lg:h-[300vh]">
       <div className="sticky top-0 overflow-hidden" style={{ height: '100vh' }}>
         {/* Canvas 3D */}
         <div className="absolute inset-0">
@@ -957,10 +957,10 @@ export function SaturnScrollSection() {
           <p className="font-display text-[11px] font-bold uppercase tracking-[0.28em] text-sky-400/90">
             2Lemonade Digital Studio
           </p>
-          <h1 className="mt-4 font-display text-[4.86rem] font-extrabold leading-tight tracking-tight text-white sm:text-[6.48rem] lg:text-[6.912rem]">
+          <h1 className="mt-4 font-display text-[clamp(2.35rem,11.2vw,3.1rem)] font-extrabold leading-[0.95] tracking-tight text-white sm:text-[5.4rem] lg:text-[6.912rem]">
             Destacate.
           </h1>
-          <p className="mt-5 max-w-md text-lg leading-relaxed text-slate-300/90">
+          <p className="mt-4 max-w-md text-base leading-relaxed text-slate-300/90 sm:mt-5 sm:text-lg">
             Creamos experiencias digitales a medida para empresas que quieren{' '}
             <span className="font-semibold text-sky-300">destacarse</span> y{' '}
             <span className="font-semibold text-sky-300">crecer</span>.
@@ -969,7 +969,7 @@ export function SaturnScrollSection() {
             href={waHero}
             target="_blank"
             rel="noopener noreferrer"
-            className="pointer-events-auto mt-8 inline-flex w-fit items-center gap-3 rounded-xl border border-sky-400/35 bg-sky-500/10 px-6 py-4 font-display text-base font-bold uppercase tracking-wide text-white backdrop-blur-sm transition hover:bg-sky-500/15"
+            className="pointer-events-auto mt-6 inline-flex w-fit items-center gap-3 rounded-xl border border-sky-400/35 bg-sky-500/10 px-5 py-3.5 font-display text-sm font-bold uppercase tracking-wide text-white backdrop-blur-sm transition hover:bg-sky-500/15 sm:mt-8 sm:px-6 sm:py-4 sm:text-base"
           >
             Contactame por WhatsApp
           </a>
@@ -978,16 +978,16 @@ export function SaturnScrollSection() {
         {/* Impact text overlay */}
         <div
           ref={impactTextRef}
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex flex-col items-center pb-16 text-center"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex flex-col items-center px-4 pb-12 text-center sm:pb-16"
           style={{ opacity: 0 }}
         >
           <p className="font-display text-[11px] font-bold uppercase tracking-[0.3em] text-sky-400/80">
             Diseño que impacta
           </p>
-          <h2 className="mt-2 font-display text-5xl font-extrabold leading-[1.07] tracking-tight text-white drop-shadow-[0_2px_24px_rgba(56,189,248,0.5)] sm:text-[6.25rem]">
+          <h2 className="mt-2 font-display text-[clamp(2.35rem,10.8vw,2.85rem)] font-extrabold leading-[1.04] tracking-tight text-white drop-shadow-[0_2px_24px_rgba(56,189,248,0.5)] sm:text-[6.25rem]">
             Rompemos el molde.
           </h2>
-          <p className="mt-3 max-w-sm text-base text-slate-400">
+          <p className="mt-2.5 max-w-sm text-sm text-slate-400 sm:mt-3 sm:text-base">
             Sitios pensados para generar clientes, no solo para verse bien.
           </p>
         </div>

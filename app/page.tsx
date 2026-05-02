@@ -33,7 +33,7 @@ export default function Home() {
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_60%_40%_at_100%_50%,rgba(217,70,239,0.1),transparent)]" />
 
       <header className="relative z-20 bg-[#050810]/85 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2.5 sm:gap-4 sm:py-3.5 sm:px-6">
           <Link href="/" className="flex min-w-0 shrink-0 items-center">
             <StudioBrandLogo variant="header" priority className="brightness-[1.02]" />
           </Link>
@@ -42,14 +42,14 @@ export default function Home() {
               href={waFooter}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-full border border-[#25D366]/35 bg-[#25D366]/10 px-3 py-2 text-xs font-bold text-[#25D366] transition hover:bg-[#25D366]/15 sm:px-4"
+              className="flex items-center gap-2 rounded-full border border-[#25D366]/35 bg-[#25D366]/10 px-2.5 py-1.5 text-[11px] font-bold text-[#25D366] transition hover:bg-[#25D366]/15 sm:px-4 sm:py-2 sm:text-xs"
             >
               <IconWhatsApp className="h-4 w-4" />
               <span className="hidden sm:inline">WhatsApp</span>
             </a>
             <a
               href={mailto("Cotización sitio web")}
-              className="rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-3 py-2 text-xs font-bold text-white shadow-lg shadow-indigo-500/30 transition hover:scale-[1.03] sm:px-4"
+              className="rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 px-2.5 py-1.5 text-[11px] font-bold text-white shadow-lg shadow-indigo-500/30 transition hover:scale-[1.03] sm:px-4 sm:py-2 sm:text-xs"
             >
               Email
             </a>
@@ -62,9 +62,9 @@ export default function Home() {
         <RecorridoSection />
         <NosEncargamosGrid />
 
-        <div className="relative -mt-20 sm:-mt-24">
+        <div className="relative -mt-8 sm:-mt-20">
           <MoonOrbitLayer>
-            <div className="grid mt-16 sm:mt-20 lg:grid-cols-[46%_54%]">
+            <div className="grid mt-12 sm:mt-20 lg:grid-cols-[46%_54%]">
               <div className="hidden lg:block" aria-hidden />
               <section className="px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16 lg:pr-10">
                 <IdealWebTierCards infoHref={mailto("Más información: planes web")} />

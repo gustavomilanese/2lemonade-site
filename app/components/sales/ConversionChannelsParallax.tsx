@@ -69,7 +69,7 @@ export function ConversionChannelsParallax({ variant = "dark", mockupVideoSrc, m
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#000008] py-16 sm:py-24"
+      className="relative overflow-hidden bg-[#000008] py-14 sm:py-24"
     >
       <div
         className="pointer-events-none absolute inset-0"
@@ -98,7 +98,7 @@ export function ConversionChannelsParallax({ variant = "dark", mockupVideoSrc, m
             transform: `translate3d(${(1 - revealProgress) * -56}px, ${(1 - revealProgress) * 20}px, 0)`,
           }}
         >
-          <h2 className="mt-3 text-balance font-display text-5xl font-black leading-[1.05] tracking-tight text-white sm:text-[6.25rem]">
+          <h2 className="mt-3 text-balance font-display text-[clamp(2.3rem,10.4vw,2.85rem)] font-black leading-[1.04] tracking-tight text-white sm:text-[6.25rem]">
             Velocidad y Precisión
           </h2>
           <p className={`mt-3 text-base leading-relaxed ${sub}`}>
@@ -107,13 +107,13 @@ export function ConversionChannelsParallax({ variant = "dark", mockupVideoSrc, m
         </div>
 
         <div
-          className="relative mx-auto mt-14 max-w-4xl transition-all delay-100 duration-700 ease-out"
+          className="relative mx-auto mt-10 max-w-4xl transition-all delay-100 duration-700 ease-out sm:mt-14"
           style={{
             opacity: Math.max(0, Math.min(1, (revealProgress - 0.08) / 0.92)),
             transform: `translate3d(${(1 - revealProgress) * 64}px, ${(1 - revealProgress) * 22}px, 0)`,
           }}
         >
-          <ParallaxLayer speed={0.06} className="pointer-events-none absolute -top-6 left-[4%] z-20 md:left-[8%]">
+          <ParallaxLayer speed={0.06} className="pointer-events-none absolute -top-6 left-[4%] z-20 hidden md:block md:left-[8%]">
             <div
               className={`pointer-events-auto flex items-center gap-2 rounded-2xl border px-3 py-2.5 backdrop-blur-md ${shell} animate-saas-float shadow-lg`}
             >
@@ -131,7 +131,7 @@ export function ConversionChannelsParallax({ variant = "dark", mockupVideoSrc, m
             </div>
           </ParallaxLayer>
 
-          <ParallaxLayer speed={-0.2} className="pointer-events-none absolute -right-2 top-1/4 z-20 md:right-[6%]">
+          <ParallaxLayer speed={-0.2} className="pointer-events-none absolute -right-2 top-1/4 z-20 hidden sm:block md:right-[6%]">
             <Link
               href={DEMO_WA}
               target="_blank"
@@ -147,7 +147,7 @@ export function ConversionChannelsParallax({ variant = "dark", mockupVideoSrc, m
             </Link>
           </ParallaxLayer>
 
-          <ParallaxLayer speed={0.14} className="pointer-events-none absolute bottom-4 left-[2%] z-20 md:bottom-10 md:left-[12%]">
+          <ParallaxLayer speed={0.14} className="pointer-events-none absolute bottom-4 left-[2%] z-20 hidden sm:block md:bottom-10 md:left-[12%]">
             <div
               className={`rounded-xl border px-3 py-2 backdrop-blur-md ${shell} shadow-lg ${isDark ? "animate-saas-float-reverse" : "animate-saas-float"}`}
             >

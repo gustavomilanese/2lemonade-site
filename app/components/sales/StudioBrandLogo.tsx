@@ -33,7 +33,7 @@ export function StudioBrandLogo({ variant = "hero", className = "", priority = f
         width={1024}
         height={1024}
         priority={priority}
-        className={`h-[4.5rem] w-auto max-h-[4.5rem] max-w-[min(100%,336px)] sm:h-[5rem] sm:max-h-[5rem] sm:max-w-[400px] ${base} ${className}`}
+        className={`h-[2.8rem] w-auto max-h-[2.8rem] max-w-[min(100%,210px)] sm:h-[5rem] sm:max-h-[5rem] sm:max-w-[400px] ${base} ${className}`}
       />
     );
   }

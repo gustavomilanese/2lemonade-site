@@ -64,7 +64,7 @@ export function IdealWebTierCards({ infoHref }: Props) {
         </p>
         <h2
           id="ideal-web-heading"
-          className="mt-3 font-display text-5xl font-black leading-[0.98] tracking-tight sm:text-[6.25rem]"
+          className="mt-3 font-display text-[clamp(2.3rem,10.5vw,2.85rem)] font-black leading-[0.96] tracking-tight sm:text-[6.25rem]"
         >
           <span className="block text-white/92">Con un Enfoque</span>
           <span className="block bg-gradient-to-r from-sky-300 via-indigo-300 to-violet-300 bg-clip-text text-transparent">

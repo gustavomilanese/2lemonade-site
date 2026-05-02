@@ -208,7 +208,7 @@ export function SalesVerticals({
   return (
     <section
       id={id}
-      className="relative overflow-hidden scroll-mt-24 py-20 sm:py-28"
+      className="relative overflow-hidden scroll-mt-24 py-16 sm:py-28"
       style={{ background: '#000008' }}
     >
       {/* Scanlines */}
@@ -230,7 +230,7 @@ export function SalesVerticals({
             {eyebrow}
           </p>
         ) : null}
-        <h2 className={`mx-auto ${hasEyebrow ? "mt-3" : "mt-0"} max-w-2xl text-balance text-center text-5xl font-black leading-[1.07] tracking-tight text-white sm:text-[6.25rem] ${titleClassName ?? ''}`}>
+        <h2 className={`mx-auto ${hasEyebrow ? "mt-3" : "mt-0"} max-w-2xl text-balance text-center text-[clamp(2.3rem,10.4vw,2.85rem)] font-black leading-[1.04] tracking-tight text-white sm:text-[6.25rem] ${titleClassName ?? ''}`}>
           {title}
         </h2>
         {hasSubtitle ? (
