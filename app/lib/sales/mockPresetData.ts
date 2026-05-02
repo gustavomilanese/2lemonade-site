@@ -52,10 +52,6 @@ export type MockPresetContent = {
 
 const CLEAN_IMG =
   "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=88";
-const HOME_IMG =
-  "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=88";
-const OFFICE_IMG =
-  "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=88";
 const CLEAN_400 =
   "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=400&q=82";
 const HOME_400 =
@@ -71,10 +67,6 @@ const OFFICE_320 =
 
 const WELL_A =
   "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=88";
-const WELL_B =
-  "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=800&q=88";
-const WELL_C =
-  "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=88";
 const WELL_A_400 =
   "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=400&q=82";
 const WELL_B_400 =

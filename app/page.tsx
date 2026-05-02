@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { ParabolicRocketScroll } from "@/app/components/sales/ParabolicRocketScroll";
-import { MockWalkthroughPicker } from "@/app/components/sales/MockWalkthroughPicker";
-import { FuturisticHero } from "@/app/components/sales/FuturisticHero";
+import Link from "next/link";
+import { SaturnScrollSection } from "@/app/components/sales/SaturnScrollSection";
 import { NosEncargamosGrid } from "@/app/components/sales/NosEncargamosGrid";
-import { EmprendimientoRocketBanner } from "@/app/components/sales/EmprendimientoRocketBanner";
+import { RecorridoSection } from "@/app/components/sales/RecorridoSection";
 import {
   ConversionChannelsParallax,
-  MIXKIT_CAR_NIGHT_CITY_MP4,
-  MIXKIT_CAR_NIGHT_CITY_POSTER,
+  MIXKIT_MATRIX_CODE_MP4,
+  MIXKIT_MATRIX_CODE_POSTER,
 } from "@/app/components/sales/ConversionChannelsParallax";
 import { IdealWebTierCards } from "@/app/components/sales/IdealWebTierCards";
 import { SalesVerticals } from "@/app/components/sales/SalesVerticals";
+import { MoonOrbitLayer } from "@/app/components/sales/MoonOrbitWrapper";
 import { StudioBrandLogo } from "@/app/components/sales/StudioBrandLogo";
 import { IconWhatsApp } from "@/app/components/icons/SimpleIcons";
 import { CONTACT_EMAIL, whatsappLinkWithText } from "@/app/lib/sales/contact";
@@ -32,13 +32,11 @@ export default function Home() {
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_90%_55%_at_50%_-12%,rgba(99,102,241,0.35),transparent_55%)]" />
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_60%_40%_at_100%_50%,rgba(217,70,239,0.1),transparent)]" />
 
-      <ParabolicRocketScroll />
-
-      <header className="relative z-20 border-b border-white/5 bg-[#050810]/85 backdrop-blur-xl">
+      <header className="relative z-20 bg-[#050810]/85 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6">
-          <a href="/" className="flex min-w-0 shrink-0 items-center">
+          <Link href="/" className="flex min-w-0 shrink-0 items-center">
             <StudioBrandLogo variant="header" priority className="brightness-[1.02]" />
-          </a>
+          </Link>
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <a
               href={waFooter}
@@ -60,83 +58,70 @@ export default function Home() {
       </header>
 
       <main className="relative z-10">
-        <FuturisticHero />
-
-        <section
-          id="recorrido"
-          className="relative border-b border-white/[0.06] bg-[#070b14] py-14 sm:py-16"
-          aria-labelledby="recorrido-titulo"
-        >
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="mb-10 max-w-2xl">
-              <p id="recorrido-titulo" className="font-display text-xs font-bold uppercase tracking-[0.25em] text-cyan-400/90">
-                Ejemplos reales
-              </p>
-              <h2 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight text-white sm:text-3xl">
-                Landings en acción
-              </h2>
-              <p className="mt-3 text-base text-slate-400">
-                Cuatro rubros de ejemplo: tocá cada uno y probá WhatsApp o Instagram como lo haría un cliente.
-              </p>
-            </div>
-            <div className="flex justify-center lg:justify-start">
-              <div className="w-full max-w-[min(100%,380px)] lg:max-w-none">
-                <MockWalkthroughPicker tone="dark" walkthroughSize="lg" />
-              </div>
-            </div>
-          </div>
-        </section>
-
+        <SaturnScrollSection />
+        <RecorridoSection />
         <NosEncargamosGrid />
 
-        <EmprendimientoRocketBanner />
-
-        <section className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
-          <IdealWebTierCards infoHref={mailto("Más información: planes web")} />
-        </section>
+        <div className="relative -mt-20 sm:-mt-24">
+          <MoonOrbitLayer>
+            <div className="grid mt-16 sm:mt-20 lg:grid-cols-[46%_54%]">
+              <div className="hidden lg:block" aria-hidden />
+              <section className="px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16 lg:pr-10">
+                <IdealWebTierCards infoHref={mailto("Más información: planes web")} />
+              </section>
+            </div>
+          </MoonOrbitLayer>
+        </div>
 
         <ConversionChannelsParallax
-          variant="dark"
-          mockupVideoSrc={MIXKIT_CAR_NIGHT_CITY_MP4}
-          mockupVideoPoster={MIXKIT_CAR_NIGHT_CITY_POSTER}
+          variant="minimal"
+          mockupVideoSrc={MIXKIT_MATRIX_CODE_MP4}
+          mockupVideoPoster={MIXKIT_MATRIX_CODE_POSTER}
         />
 
-        <section id="casos" className="relative border-t border-white/5 bg-gradient-to-b from-black/40 via-indigo-950/20 to-black/50 py-16 sm:py-20">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <SalesVerticals
-              id="para-tu-negocio"
-              eyebrow="Tu rubro"
-              eyebrowClassName="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-400"
-              title="Elegí el perfil que más se parece al tuyo"
-              titleClassName="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl"
-              subtitle="En todos los casos el resultado es el mismo: alguien entiende la oferta en segundos y llega a vos con intención."
-              subtitleClassName="mt-3 max-w-2xl text-slate-400"
-              cardClassName="rounded-xl border border-white/10 bg-white/[0.06] text-slate-100 shadow-lg shadow-black/20 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-indigo-400/30 hover:shadow-indigo-500/20"
-              bulletClassName="bg-indigo-400"
-              hintClassName="border-white/10 text-indigo-300"
-              demoHash="#recorrido"
-              demoLinkClassName="text-fuchsia-300/95 hover:text-fuchsia-200"
-            />
-          </div>
-        </section>
+        <SalesVerticals
+          id="para-tu-negocio"
+          demoHash="#recorrido"
+          title="Tu Emprendimiento"
+          titleClassName="sm:max-w-none sm:whitespace-nowrap"
+        />
 
-        <footer className="border-t border-white/5 bg-gradient-to-r from-[#050810] via-indigo-950/30 to-[#050810] py-10">
-          <div className="mx-auto flex max-w-6xl flex-col items-center justify-center gap-4 px-4 sm:flex-row sm:px-6">
-            <a
-              href={waFooter}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-full border border-[#25D366]/35 bg-[#25D366]/10 px-4 py-2 text-sm font-bold text-[#25D366] transition hover:bg-[#25D366]/15"
-            >
-              <IconWhatsApp className="h-5 w-5" />
-              WhatsApp
-            </a>
-            <a
-              href={mailto("Consulta desde la web")}
-              className="rounded-full border border-cyan-300/30 bg-cyan-500/10 px-4 py-2 text-sm font-bold text-cyan-200 transition hover:bg-cyan-500/15"
-            >
-              Email
-            </a>
+        <footer className="relative overflow-hidden bg-[#000008] py-12">
+          <div className="pointer-events-none absolute -left-32 top-0 h-64 w-64 rounded-full bg-sky-500/20 blur-[90px]" aria-hidden />
+          <div className="pointer-events-none absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-violet-500/18 blur-[100px]" aria-hidden />
+          <div
+            className="pointer-events-none absolute inset-0"
+            aria-hidden
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 18% 22%, rgba(255,255,255,0.14) 0.75px, transparent 1.1px), radial-gradient(circle at 78% 31%, rgba(255,255,255,0.1) 0.7px, transparent 1px), radial-gradient(circle at 62% 76%, rgba(255,255,255,0.12) 0.7px, transparent 1px)",
+              backgroundSize: "440px 440px, 520px 520px, 640px 640px",
+              opacity: 0.42,
+            }}
+          />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_85%_at_50%_50%,transparent_55%,rgba(0,0,8,0.72)_100%)]" />
+
+          <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center justify-center gap-6 px-4 sm:px-6">
+            <p className="bg-gradient-to-r from-sky-300 via-indigo-300 to-violet-300 bg-clip-text font-display text-4xl font-black tracking-tight text-transparent sm:text-5xl">
+              2Lemonade
+            </p>
+            <div className="flex flex-col items-center gap-4 sm:flex-row">
+              <a
+                href={waFooter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-full border border-sky-300/45 bg-sky-500/18 px-4 py-2 text-sm font-bold text-sky-100 transition hover:bg-sky-500/26"
+              >
+                <IconWhatsApp className="h-5 w-5" />
+                WhatsApp
+              </a>
+              <a
+                href={mailto("Consulta desde la web")}
+                className="rounded-full border border-violet-300/45 bg-violet-500/18 px-4 py-2 text-sm font-bold text-violet-100 transition hover:bg-violet-500/26"
+              >
+                Email
+              </a>
+            </div>
           </div>
         </footer>
       </main>

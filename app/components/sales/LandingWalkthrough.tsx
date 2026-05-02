@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useState, type FormEvent } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import { demoWhatsAppWithMessage, MOCK_PRESETS, type MockPresetId } from "@/app/lib/sales/mockPresetData";
 
 export type WalkthroughTone = "light" | "dark" | "minimal";
+const IPAD_REFERENCE_WIDTH_PX = 474; // ~10% narrower than previous 527px.
 
 const toneFrame: Record<WalkthroughTone, string> = {
   light:
@@ -26,6 +27,7 @@ type Props = {
   caption?: string;
   /** Demo tipo monitor (iMac) en tamaño default o grande. */
   size?: "default" | "lg";
+  device?: "desktop" | "ipad";
 };
 
 const BARBER_SERVICE_OPTIONS = ["Corte + degradé", "Barba & perfilado", "Combo full"] as const;
@@ -120,9 +122,11 @@ export function LandingWalkthrough({
   preset,
   caption,
   size = "default",
+  device = "desktop",
 }: Props) {
   const isDark = tone === "dark";
   const isLg = size === "lg";
+  const isIpad = device === "ipad";
   const m = MOCK_PRESETS[preset];
   const isScreenshot = Boolean(m.screenshotSrc);
   const scrollAnimClass = isScreenshot
@@ -149,21 +153,84 @@ export function LandingWalkthrough({
       ? "Barbería · ejemplo con turnos y WhatsApp en segundos"
       : "Ejemplo con fotos reales · probá WhatsApp e Instagram";
 
-  const imgSizes = isLg ? "(max-width: 1024px) 96vw, 760px" : "(max-width: 1024px) 94vw, 700px";
   const shotW = m.screenshotWidth ?? 802;
   const shotH = m.screenshotHeight ?? 2000;
-  const frameMax = isLg ? "max-w-[740px]" : "max-w-[680px]";
-  const screenH = isLg ? "h-[380px] sm:h-[420px]" : "h-[340px] sm:h-[380px]";
+  const ipadMaxWidthPx = useMemo(() => {
+    if (!isIpad) return null;
+    return IPAD_REFERENCE_WIDTH_PX;
+  }, [isIpad]);
+
+  const imgSizes = isIpad
+    ? `(max-width: 1024px) 94vw, ${ipadMaxWidthPx ?? IPAD_REFERENCE_WIDTH_PX}px`
+    : isLg
+      ? "(max-width: 1024px) 96vw, 760px"
+      : "(max-width: 1024px) 94vw, 700px";
+  const frameMax = isIpad
+    ? isLg
+      ? "max-w-[474px]"
+      : "max-w-[474px]"
+    : isLg
+      ? "max-w-[740px]"
+      : "max-w-[680px]";
+  const screenH = isIpad
+    ? isLg
+      ? "h-[350px] sm:h-[410px] lg:h-[450px]"
+      : "h-[330px] sm:h-[390px]"
+    : isLg
+      ? "h-[380px] sm:h-[420px]"
+      : "h-[340px] sm:h-[380px]";
+  const frameRound = isIpad ? "rounded-[2.1rem] sm:rounded-[2.5rem]" : "rounded-2xl";
+  const chromeRound = isIpad ? "rounded-t-[2.1rem] sm:rounded-t-[2.5rem]" : "rounded-t-2xl";
+  const screenRound = isIpad ? "rounded-b-[2.1rem] sm:rounded-b-[2.5rem]" : "rounded-b-2xl";
+  const perspectiveStyle = isIpad
+    ? { perspective: "1600px", transformStyle: "preserve-3d" as const }
+    : undefined;
+  const ipadTiltStyle = isIpad
+    ? { transform: "rotateX(16deg) rotateY(-14deg) rotateZ(-1.25deg)", transformOrigin: "50% 58%" }
+    : undefined;
+
+  const outerStyle = isIpad
+    ? { ...perspectiveStyle, maxWidth: `${ipadMaxWidthPx ?? IPAD_REFERENCE_WIDTH_PX}px` }
+    : perspectiveStyle;
 
   return (
-    <figure
-      className={`relative mx-auto w-full ${frameMax} overflow-hidden ${toneFrame[tone]} animate-mock-float`}
-    >
-      <div
-        className={`pointer-events-none absolute -right-20 -top-24 h-44 w-44 rounded-full ${m.accentRing} bg-gradient-to-br opacity-35 blur-3xl`}
-      />
+    <div className={`relative mx-auto w-full ${frameMax}`} style={outerStyle}>
+      {isIpad ? (
+        <div className="pointer-events-none absolute -inset-10 z-0 rounded-[3rem] bg-[radial-gradient(ellipse_at_70%_25%,rgba(56,189,248,0.23),transparent_58%),radial-gradient(ellipse_at_28%_72%,rgba(129,140,248,0.2),transparent_60%)] blur-2xl" />
+      ) : null}
+      <div className={`relative z-10 ${isIpad ? "" : "animate-mock-float"}`} style={ipadTiltStyle}>
+        {isIpad ? (
+          <div className="pointer-events-none absolute inset-x-[14%] -bottom-10 h-14 rounded-[999px] bg-black/50 blur-2xl" />
+        ) : null}
+        <div className={isIpad ? "animate-mock-float" : ""}>
+          <div
+            className={
+              isIpad
+                ? "relative mx-auto rounded-[2.9rem] border border-slate-200/55 bg-[linear-gradient(160deg,#f7faff_0%,#dbe4f5_50%,#aebbd4_100%)] p-[12px] shadow-[0_56px_120px_-42px_rgba(2,6,23,0.96),0_10px_22px_rgba(15,23,42,0.3),inset_0_2px_2px_rgba(255,255,255,0.88),inset_0_-2px_3px_rgba(66,80,105,0.35)] sm:p-[14px]"
+                : ""
+            }
+          >
+            {isIpad ? (
+              <>
+                <div className="pointer-events-none absolute inset-[6px] z-0 rounded-[2.55rem] border border-white/65 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),inset_0_-1px_0_rgba(80,97,126,0.35)]" />
+                <div className="pointer-events-none absolute inset-[8px] z-0 rounded-[2.45rem] bg-[linear-gradient(150deg,rgba(255,255,255,0.22),rgba(255,255,255,0)_40%,rgba(18,28,43,0.16)_100%)]" />
+                <div className="pointer-events-none absolute left-1/2 top-[9px] z-30 h-2 w-2 -translate-x-1/2 rounded-full bg-slate-900 shadow-[0_0_0_2px_rgba(255,255,255,0.22),0_1px_2px_rgba(0,0,0,0.5)]" />
+                <div className="pointer-events-none absolute right-[7px] top-1/2 z-30 h-14 w-[3px] -translate-y-1/2 rounded-full bg-slate-500/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]" />
+                <div className="pointer-events-none absolute left-[7px] top-[42%] z-30 h-10 w-[3px] -translate-y-1/2 rounded-full bg-slate-500/65 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]" />
+              </>
+            ) : null}
 
-      <div className={`relative z-20 flex h-10 items-center gap-1.5 rounded-t-2xl px-3 ${toneChrome[tone]}`}>
+            <figure
+              className={`relative z-10 mx-auto w-full overflow-hidden ${toneFrame[tone]} ${frameRound} ${isIpad ? "border border-slate-900/30 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),inset_0_-12px_26px_rgba(2,6,23,0.35)]" : ""}`}
+            >
+            <div
+              className={`pointer-events-none absolute -right-20 -top-24 h-44 w-44 rounded-full ${m.accentRing} bg-gradient-to-br opacity-35 blur-3xl`}
+            />
+            {isIpad ? (
+              <div className="pointer-events-none absolute inset-0 z-20 bg-[linear-gradient(113deg,rgba(255,255,255,0.3)_0%,rgba(255,255,255,0.08)_30%,rgba(255,255,255,0.02)_48%,transparent_64%)] mix-blend-screen" />
+            ) : null}
+
+            <div className={`relative z-20 flex h-10 items-center gap-1.5 px-3 ${toneChrome[tone]} ${chromeRound}`}>
         <span className="h-2.5 w-2.5 rounded-full bg-red-400 shadow-sm shadow-red-500/40" />
         <span className="h-2.5 w-2.5 rounded-full bg-amber-400 shadow-sm shadow-amber-500/30" />
         <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-500/30" />
@@ -179,7 +246,7 @@ export function LandingWalkthrough({
         </a>
       </div>
 
-      <div className={`relative overflow-hidden rounded-b-2xl ${screenH}`}>
+      <div className={`relative overflow-hidden ${screenRound} ${screenH}`}>
         <div className={`pointer-events-auto absolute left-0 right-0 top-3 z-10 px-3 pb-3 ${scrollAnimClass}`}>
           {isScreenshot && m.screenshotSrc ? (
             <a
@@ -195,6 +262,7 @@ export function LandingWalkthrough({
                 height={shotH}
                 className="h-auto w-full"
                 sizes={imgSizes}
+                quality={100}
                 priority
               />
             </a>
@@ -208,6 +276,7 @@ export function LandingWalkthrough({
                   fill
                   className="object-cover"
                   sizes={imgSizes}
+                  quality={95}
                   priority
                 />
                 <div className={`absolute inset-0 ${m.heroOverlay}`} />
@@ -257,6 +326,7 @@ export function LandingWalkthrough({
                         fill
                         className="object-cover transition duration-300 group-hover:scale-105"
                         sizes="100px"
+                        quality={90}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
                       <span className="absolute bottom-1 left-1 right-1 text-center text-[8px] font-bold leading-tight text-white drop-shadow-md">
@@ -292,7 +362,7 @@ export function LandingWalkthrough({
                       rel="noopener noreferrer"
                       className="relative aspect-square overflow-hidden rounded-lg shadow-md ring-1 ring-black/10 transition hover:opacity-95 hover:ring-2 hover:ring-fuchsia-400/50"
                     >
-                      <Image src={src} alt="" fill className="object-cover" sizes="72px" />
+                      <Image src={src} alt="" fill className="object-cover" sizes="72px" quality={90} />
                     </a>
                   ))}
                 </div>
@@ -346,6 +416,15 @@ export function LandingWalkthrough({
         className={`pointer-events-none mx-auto mb-2 h-2.5 w-28 rounded-b-2xl ${isDark ? "bg-white/12" : "bg-slate-300/70"}`}
         aria-hidden
       />
-    </figure>
+            </figure>
+            {isIpad ? (
+              <div className="pointer-events-none absolute inset-x-0 bottom-[8px] z-30 flex justify-center">
+                <span className="h-[5px] w-24 rounded-full bg-slate-700/60" />
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -1,9 +1,15 @@
+'use client';
+
 import type { ComponentType } from "react";
-import Image from "next/image";
+import dynamic from "next/dynamic";
 import { IconWhatsApp } from "@/app/components/icons/SimpleIcons";
 import { whatsappLinkWithText } from "@/app/lib/sales/contact";
 
-const HERO_BG = "/sales/tu-web-ideal-pool.png?v=20260426-hero";
+const HeroScene = dynamic(
+  () => import("./HeroScene").then((m) => m.HeroScene),
+  { ssr: false }
+);
+
 const waHero = whatsappLinkWithText("Hola, quiero info sobre diseño web y empezar.");
 
 function IconShieldRing({ className }: { className?: string }) {
@@ -123,21 +129,12 @@ export function FuturisticHero() {
           </div>
         </div>
 
-        {/* Imagen derecha */}
-        <div className="relative order-1 min-h-[220px] w-full sm:min-h-[280px] lg:order-2 lg:min-h-0">
-          <Image
-            src={HERO_BG}
-            alt=""
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover object-[center_32%] lg:object-[center_38%]"
-          />
-          <div
-            className="absolute inset-0 bg-gradient-to-r from-[#030712] via-[#030712]/55 to-transparent lg:via-[#030712]/25"
-            aria-hidden
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#030712]/50 via-transparent to-[#030712]/20 lg:to-transparent" aria-hidden />
+        {/* Panel 3D derecho */}
+        <div className="relative order-1 flex min-h-[300px] w-full items-center justify-center sm:min-h-[380px] lg:order-2 lg:min-h-0">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#030712] via-transparent to-transparent lg:via-transparent" aria-hidden />
+          <div className="absolute inset-0">
+            <HeroScene />
+          </div>
 
           <ul className="absolute bottom-6 left-4 right-4 z-10 hidden flex-col items-end gap-3 lg:bottom-10 lg:left-auto lg:right-6 lg:w-[min(100%,280px)]">
             {floatItems.map(({ label, Icon }) => (

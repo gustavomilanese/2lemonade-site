@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
@@ -11,7 +11,6 @@ type Props = {
 
 export function ParallaxLayer({ children, speed = 0.18, className = "" }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const [y, setY] = useState(0);
 
   useEffect(() => {
     const el = ref.current;
@@ -23,7 +22,8 @@ export function ParallaxLayer({ children, speed = 0.18, className = "" }: Props)
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
       const progress = (rect.top - vh * 0.2) / (vh + rect.height);
-      setY(progress * 80 * speed);
+      const y = progress * 80 * speed;
+      el.style.transform = `translate3d(0, ${y}px, 0)`;
     };
 
     const onScroll = () => {
@@ -44,7 +44,7 @@ export function ParallaxLayer({ children, speed = 0.18, className = "" }: Props)
     <div
       ref={ref}
       className={className}
-      style={{ transform: `translate3d(0, ${y}px, 0)` }}
+      style={{ transform: "translate3d(0, 0, 0)" }}
     >
       {children}
     </div>

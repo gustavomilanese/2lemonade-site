@@ -11,9 +11,16 @@ type Props = {
   caption?: string;
   className?: string;
   walkthroughSize?: "default" | "lg";
+  device?: "desktop" | "ipad";
 };
 
-export function MockWalkthroughPicker({ tone, caption, className = "", walkthroughSize = "default" }: Props) {
+export function MockWalkthroughPicker({
+  tone,
+  caption,
+  className = "",
+  walkthroughSize = "default",
+  device = "desktop",
+}: Props) {
   const [tab, setTab] = useState<MockPresetId>("motivarc");
 
   return (
@@ -21,8 +28,8 @@ export function MockWalkthroughPicker({ tone, caption, className = "", walkthrou
       <div
         className={
           tone === "dark"
-            ? "mb-5 flex flex-wrap justify-center gap-1 rounded-2xl border border-white/[0.09] bg-[#0a0d14]/85 p-1.5 shadow-inner shadow-black/40 backdrop-blur-sm sm:justify-start"
-            : "mb-4 flex flex-wrap justify-center gap-2 sm:justify-start"
+            ? "mx-auto mb-6 flex w-full max-w-4xl flex-wrap justify-center gap-2 rounded-2xl border border-cyan-200/15 bg-[linear-gradient(130deg,rgba(255,255,255,0.09),rgba(255,255,255,0.03))] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_16px_36px_-18px_rgba(34,211,238,0.35)] backdrop-blur-xl"
+            : "mb-4 flex flex-wrap justify-center gap-2"
         }
       >
         {TAB_ORDER.map((id) => {
@@ -35,10 +42,10 @@ export function MockWalkthroughPicker({ tone, caption, className = "", walkthrou
               onClick={() => setTab(id)}
               className={
                 tone === "dark"
-                  ? "rounded-xl px-3 py-2 text-[11px] font-semibold tracking-tight transition-all duration-200 " +
+                  ? "rounded-xl border px-4 py-2.5 text-[12px] font-semibold tracking-tight transition-all duration-300 " +
                     (active
-                      ? "bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-md shadow-indigo-900/50"
-                      : "text-slate-400 hover:bg-white/[0.06] hover:text-slate-200")
+                      ? "border-cyan-200/40 bg-gradient-to-r from-sky-500 to-indigo-500 text-white shadow-[0_10px_24px_-12px_rgba(56,189,248,0.85)]"
+                      : "border-white/10 bg-white/[0.03] text-slate-300 hover:border-cyan-200/25 hover:bg-white/[0.07] hover:text-white")
                   : "rounded-full px-3.5 py-1.5 text-[11px] font-bold tracking-wide transition-all duration-200 " +
                     (active
                       ? tone === "minimal"
@@ -54,7 +61,7 @@ export function MockWalkthroughPicker({ tone, caption, className = "", walkthrou
           );
         })}
       </div>
-      <LandingWalkthrough tone={tone} preset={tab} caption={caption} size={walkthroughSize} />
+      <LandingWalkthrough tone={tone} preset={tab} caption={caption} size={walkthroughSize} device={device} />
     </div>
   );
 }

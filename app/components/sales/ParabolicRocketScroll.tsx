@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 /** Query evita PNG viejo sin alpha en caché del navegador. */
 const ROCKET_SRC = "/space/rocket-parabola.png?v=2";
@@ -114,14 +115,13 @@ export function ParabolicRocketScroll() {
         }}
       >
         <div className="relative w-[min(42vw,280px)] sm:w-[min(36vw,320px)] lg:w-[min(28vw,340px)] bg-transparent">
-          {/* <img> evita el pipeline de next/image (a veces pierde alpha en WebP/optimización). */}
-          <img
+          <Image
             src={ROCKET_SRC}
             alt=""
             width={ROCKET_W}
             height={ROCKET_H}
-            decoding="async"
-            fetchPriority="high"
+            unoptimized
+            priority
             draggable={false}
             className="h-auto w-full select-none object-contain opacity-[0.92] [filter:drop-shadow(0_0_28px_rgba(147,197,253,0.35))]"
           />

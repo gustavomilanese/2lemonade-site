@@ -51,8 +51,10 @@ export const SALES_USE_CASES: SalesUseCase[] = [
     ],
     ctaHint: "Una visita, una acción: que dejen mail, agenda o mensaje.",
     examplePresetId: "motivarc",
-    thumbCaption: "Ejemplo · servicio profesional",
-    thumbPhotoSrc: "/sales/marca-nueva.jpg",
+    thumbCaption: "Ejemplo · lanzamiento digital",
+    thumbPhotoSrc:
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=88",
+    thumbObjectPosition: "center 45%",
   },
   {
     id: "social",
@@ -65,9 +67,10 @@ export const SALES_USE_CASES: SalesUseCase[] = [
     ],
     ctaHint: "Del post al mensaje: menos pasos, más ventas.",
     examplePresetId: "acompanarte",
-    thumbCaption: "Ejemplo · cuidado en casa",
-    thumbPhotoSrc: "/sales/vendes-instagram.jpg",
-    thumbObjectPosition: "center 68%",
+    thumbCaption: "Ejemplo · ventas por redes",
+    thumbPhotoSrc:
+      "https://images.pexels.com/photos/238480/pexels-photo-238480.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    thumbObjectPosition: "center 46%",
   },
 ];
 
