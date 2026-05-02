@@ -63,7 +63,14 @@ export function MoonOrbitLayer({ children }: { children: React.ReactNode }) {
         background: '#000000',
         overflow: 'hidden',
       }}
-    >
+      >
+      <div className="relative h-[42vh] overflow-hidden lg:hidden">
+        <div className="pointer-events-none absolute inset-0">
+          <MoonBackdrop />
+        </div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-black/85" />
+      </div>
+
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -76,6 +83,7 @@ export function MoonOrbitLayer({ children }: { children: React.ReactNode }) {
       />
 
       <div
+        className="hidden lg:block"
         style={{
           position: 'absolute',
           top: 0,

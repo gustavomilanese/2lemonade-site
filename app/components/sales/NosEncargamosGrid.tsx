@@ -196,13 +196,78 @@ export function NosEncargamosGrid() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative" style={{ height: '265vh' }}>
+    <>
+      <section className="relative overflow-hidden bg-[#000008] px-4 py-14 sm:px-6 lg:hidden">
+        <div className="pointer-events-none absolute inset-0 opacity-90 [background-image:radial-gradient(1px_1px_at_2%_8%,rgba(255,255,255,0.72),transparent),radial-gradient(1px_1px_at_6%_36%,rgba(255,255,255,0.58),transparent),radial-gradient(1px_1px_at_10%_70%,rgba(255,255,255,0.52),transparent),radial-gradient(1px_1px_at_14%_18%,rgba(255,255,255,0.65),transparent),radial-gradient(1px_1px_at_19%_56%,rgba(255,255,255,0.48),transparent),radial-gradient(1px_1px_at_23%_84%,rgba(255,255,255,0.54),transparent),radial-gradient(1px_1px_at_28%_28%,rgba(255,255,255,0.62),transparent),radial-gradient(1px_1px_at_33%_64%,rgba(255,255,255,0.46),transparent),radial-gradient(1px_1px_at_38%_10%,rgba(255,255,255,0.68),transparent),radial-gradient(1px_1px_at_43%_42%,rgba(255,255,255,0.5),transparent),radial-gradient(1px_1px_at_48%_78%,rgba(255,255,255,0.55),transparent),radial-gradient(1px_1px_at_53%_22%,rgba(255,255,255,0.6),transparent),radial-gradient(1px_1px_at_58%_58%,rgba(255,255,255,0.47),transparent),radial-gradient(1px_1px_at_63%_86%,rgba(255,255,255,0.52),transparent),radial-gradient(1px_1px_at_68%_30%,rgba(255,255,255,0.63),transparent),radial-gradient(1px_1px_at_73%_66%,rgba(255,255,255,0.49),transparent),radial-gradient(1px_1px_at_78%_12%,rgba(255,255,255,0.66),transparent),radial-gradient(1px_1px_at_83%_48%,rgba(255,255,255,0.5),transparent),radial-gradient(1px_1px_at_88%_76%,rgba(255,255,255,0.56),transparent),radial-gradient(1px_1px_at_93%_24%,rgba(255,255,255,0.62),transparent),radial-gradient(1px_1px_at_97%_60%,rgba(255,255,255,0.48),transparent)]" />
+        <div className="pointer-events-none absolute inset-0 opacity-55 [background-image:radial-gradient(1.5px_1.5px_at_12%_8%,rgba(255,255,255,0.85),transparent),radial-gradient(1.5px_1.5px_at_39%_17%,rgba(255,255,255,0.78),transparent),radial-gradient(1.5px_1.5px_at_57%_33%,rgba(255,255,255,0.76),transparent),radial-gradient(1.5px_1.5px_at_76%_19%,rgba(255,255,255,0.84),transparent),radial-gradient(1.5px_1.5px_at_91%_42%,rgba(255,255,255,0.8),transparent),radial-gradient(1.5px_1.5px_at_24%_74%,rgba(255,255,255,0.74),transparent),radial-gradient(1.5px_1.5px_at_66%_81%,rgba(255,255,255,0.72),transparent)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_85%_at_50%_50%,transparent_55%,rgba(0,0,8,0.72)_100%)]" />
+
+        <div className="relative z-10 mx-auto max-w-3xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-cyan-400/55">Nuestro enfoque</p>
+          <h2 className="mt-3 font-display text-[clamp(2.3rem,10.6vw,2.85rem)] font-black leading-[1.04] tracking-tight text-white">
+            Nos encargamos de todo.
+          </h2>
+          <p className="mt-3 max-w-[34ch] text-[14px] leading-relaxed text-slate-300">
+            No vendemos páginas lindas: construimos una máquina de captación con diseño, sistema y conversión.
+          </p>
+
+          <div className="mt-7 space-y-4">
+            {items.map(({ title, description, highlights, Icon, accent, num, phase, proofLabel, proofValue, proofHint, microcopy }) => (
+              <article key={title} className="relative rounded-2xl border border-cyan-100/28 bg-black/64 p-4 shadow-[0_24px_70px_-34px_rgba(8,145,178,0.7)] backdrop-blur-xl">
+                <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/8" />
+                <div className="relative flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <p className="font-mono text-[10px] tracking-[0.28em] text-white/28">{num} / 04</p>
+                    <span
+                      className="rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.16em]"
+                      style={{ borderColor: `${accent}4d`, color: accent, background: `${accent}12` }}
+                    >
+                      {phase}
+                    </span>
+                  </div>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border" style={{ borderColor: `${accent}40`, background: `${accent}16`, color: accent }}>
+                    <Icon className="h-4 w-4" />
+                  </div>
+                </div>
+
+                <h3 className="relative mt-4 text-[1.38rem] font-black leading-tight tracking-tight text-white">{title}</h3>
+                <p className="relative mt-2 text-[13px] leading-relaxed text-slate-300">{description}</p>
+
+                <div className="relative mt-4 grid gap-3">
+                  <div className="rounded-xl border border-cyan-100/20 bg-white/[0.08] p-3.5">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">{proofLabel}</p>
+                    <p className="mt-1 text-lg font-black text-white">{proofValue}</p>
+                    <p className="mt-1 text-[12px] text-slate-300">{proofHint}</p>
+                  </div>
+                  <div className="rounded-xl border border-cyan-100/18 bg-black/42 p-3.5">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Entregables clave</p>
+                    <ul className="mt-2.5 space-y-1.5">
+                      {highlights.map((h) => (
+                        <li key={h} className="flex items-start gap-2 text-[12px] text-slate-300">
+                          <span className="mt-[6px] h-1.5 w-1.5 rounded-full" style={{ background: accent }} />
+                          <span>{h}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="relative mt-4 border-t border-white/10 pt-3.5">
+                  <p className="text-[12px] font-medium text-slate-300">{microcopy}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section ref={sectionRef} className="relative hidden lg:block lg:h-[265vh]">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden bg-[#000008]">
         <div className="pointer-events-none absolute inset-0 opacity-90 [background-image:radial-gradient(1px_1px_at_2%_8%,rgba(255,255,255,0.72),transparent),radial-gradient(1px_1px_at_6%_36%,rgba(255,255,255,0.58),transparent),radial-gradient(1px_1px_at_10%_70%,rgba(255,255,255,0.52),transparent),radial-gradient(1px_1px_at_14%_18%,rgba(255,255,255,0.65),transparent),radial-gradient(1px_1px_at_19%_56%,rgba(255,255,255,0.48),transparent),radial-gradient(1px_1px_at_23%_84%,rgba(255,255,255,0.54),transparent),radial-gradient(1px_1px_at_28%_28%,rgba(255,255,255,0.62),transparent),radial-gradient(1px_1px_at_33%_64%,rgba(255,255,255,0.46),transparent),radial-gradient(1px_1px_at_38%_10%,rgba(255,255,255,0.68),transparent),radial-gradient(1px_1px_at_43%_42%,rgba(255,255,255,0.5),transparent),radial-gradient(1px_1px_at_48%_78%,rgba(255,255,255,0.55),transparent),radial-gradient(1px_1px_at_53%_22%,rgba(255,255,255,0.6),transparent),radial-gradient(1px_1px_at_58%_58%,rgba(255,255,255,0.47),transparent),radial-gradient(1px_1px_at_63%_86%,rgba(255,255,255,0.52),transparent),radial-gradient(1px_1px_at_68%_30%,rgba(255,255,255,0.63),transparent),radial-gradient(1px_1px_at_73%_66%,rgba(255,255,255,0.49),transparent),radial-gradient(1px_1px_at_78%_12%,rgba(255,255,255,0.66),transparent),radial-gradient(1px_1px_at_83%_48%,rgba(255,255,255,0.5),transparent),radial-gradient(1px_1px_at_88%_76%,rgba(255,255,255,0.56),transparent),radial-gradient(1px_1px_at_93%_24%,rgba(255,255,255,0.62),transparent),radial-gradient(1px_1px_at_97%_60%,rgba(255,255,255,0.48),transparent)]" />
         <div className="pointer-events-none absolute inset-0 opacity-55 [background-image:radial-gradient(1.5px_1.5px_at_12%_8%,rgba(255,255,255,0.85),transparent),radial-gradient(1.5px_1.5px_at_39%_17%,rgba(255,255,255,0.78),transparent),radial-gradient(1.5px_1.5px_at_57%_33%,rgba(255,255,255,0.76),transparent),radial-gradient(1.5px_1.5px_at_76%_19%,rgba(255,255,255,0.84),transparent),radial-gradient(1.5px_1.5px_at_91%_42%,rgba(255,255,255,0.8),transparent),radial-gradient(1.5px_1.5px_at_24%_74%,rgba(255,255,255,0.74),transparent),radial-gradient(1.5px_1.5px_at_66%_81%,rgba(255,255,255,0.72),transparent)]" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_85%_at_50%_50%,transparent_55%,rgba(0,0,8,0.72)_100%)]" />
 
-        <div className="pointer-events-none absolute inset-x-0 -top-[12%] z-30 h-[54%]">
+        <div className="pointer-events-none absolute inset-x-0 -top-[12%] z-30 hidden h-[54%] lg:block">
           <div className="absolute left-[12%] top-[8%] h-44 w-44 rounded-full bg-cyan-400/20 blur-[82px]" />
           <div className="absolute right-[14%] top-[20%] h-52 w-52 rounded-full bg-emerald-400/16 blur-[96px]" />
           <div className="absolute left-[42%] top-[0%] h-40 w-40 rounded-full bg-violet-400/12 blur-[88px]" />
@@ -211,7 +276,7 @@ export function NosEncargamosGrid() {
           </div>
         </div>
 
-        <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-8 px-6 sm:px-10 lg:grid-cols-[1.08fr_1.52fr] lg:gap-16">
+        <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-6 px-5 sm:gap-8 sm:px-10 lg:grid-cols-[1.08fr_1.52fr] lg:gap-16">
           <div className="flex flex-col">
             <div
               ref={titleRef}
@@ -220,7 +285,7 @@ export function NosEncargamosGrid() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-cyan-400/55">
                 Nuestro enfoque
               </p>
-              <h2 className="mt-4 font-display text-8xl font-black leading-[1.07] tracking-tight text-white sm:text-[6.25rem]">
+              <h2 className="mt-3 font-display text-[clamp(2.3rem,10.6vw,2.85rem)] font-black leading-[1.04] tracking-tight text-white sm:mt-4 sm:text-[4.8rem] lg:text-[6.25rem]">
                 Nos encargamos<br />de todo.
               </h2>
             </div>
@@ -228,7 +293,7 @@ export function NosEncargamosGrid() {
             <p
               ref={subtitleRef}
               style={{ opacity: 0, transform: 'translate3d(-70px,0,0)', willChange: 'transform,opacity' }}
-              className="mt-4 max-w-[290px] text-[15px] leading-relaxed text-slate-300"
+              className="mt-3 max-w-[290px] text-[14px] leading-relaxed text-slate-300 sm:mt-4 sm:text-[15px]"
             >
               No vendemos páginas lindas: construimos una máquina de captación con diseño, sistema y conversión.
             </p>
@@ -236,12 +301,12 @@ export function NosEncargamosGrid() {
             <div
               ref={badgeRef}
               style={{ opacity: 0, transform: 'translate3d(-70px,0,0)', willChange: 'transform,opacity' }}
-              className="mt-6 inline-flex w-fit items-center rounded-full border border-cyan-300/25 bg-cyan-400/8 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-200/85"
+              className="mt-5 hidden w-fit items-center rounded-full border border-cyan-300/25 bg-cyan-400/8 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-200/85 md:inline-flex"
             >
               Estrategia + ejecución
             </div>
 
-            <div className="mt-10 flex items-center gap-2">
+            <div className="mt-6 flex items-center gap-2 sm:mt-10">
               {items.map((_, i) => (
                 <span
                   key={i}
@@ -253,7 +318,7 @@ export function NosEncargamosGrid() {
             </div>
           </div>
 
-          <div className="relative h-[48vh] sm:h-[52vh] lg:h-[56vh]">
+          <div className="relative h-[50vh] sm:h-[48vh] lg:h-[56vh]">
             {items.map(({ title, description, highlights, Icon, accent, glow, num, phase, proofLabel, proofValue, proofHint, microcopy }, i) => (
               <div
                 key={title}
@@ -328,6 +393,7 @@ export function NosEncargamosGrid() {
           </div>
         </div>
       </div>
-    </section>
+      </section>
+    </>
   );
 }

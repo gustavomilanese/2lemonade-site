@@ -43,12 +43,12 @@ export function RecorridoSection() {
     <section
       ref={sectionRef}
       id="recorrido"
-      className="relative overflow-hidden bg-[#000008] pb-16 pt-28 sm:pb-20 sm:pt-36"
+      className="relative overflow-hidden bg-[#000008] pb-14 pt-20 sm:pb-20 sm:pt-36"
       aria-labelledby="recorrido-titulo"
     >
       <div className="pointer-events-none absolute inset-0 opacity-90 [background-image:radial-gradient(1px_1px_at_2%_8%,rgba(255,255,255,0.72),transparent),radial-gradient(1px_1px_at_6%_36%,rgba(255,255,255,0.58),transparent),radial-gradient(1px_1px_at_10%_70%,rgba(255,255,255,0.52),transparent),radial-gradient(1px_1px_at_14%_18%,rgba(255,255,255,0.65),transparent),radial-gradient(1px_1px_at_19%_56%,rgba(255,255,255,0.48),transparent),radial-gradient(1px_1px_at_23%_84%,rgba(255,255,255,0.54),transparent),radial-gradient(1px_1px_at_28%_28%,rgba(255,255,255,0.62),transparent),radial-gradient(1px_1px_at_33%_64%,rgba(255,255,255,0.46),transparent),radial-gradient(1px_1px_at_38%_10%,rgba(255,255,255,0.68),transparent),radial-gradient(1px_1px_at_43%_42%,rgba(255,255,255,0.5),transparent),radial-gradient(1px_1px_at_48%_78%,rgba(255,255,255,0.55),transparent),radial-gradient(1px_1px_at_53%_22%,rgba(255,255,255,0.6),transparent),radial-gradient(1px_1px_at_58%_58%,rgba(255,255,255,0.47),transparent),radial-gradient(1px_1px_at_63%_86%,rgba(255,255,255,0.52),transparent),radial-gradient(1px_1px_at_68%_30%,rgba(255,255,255,0.63),transparent),radial-gradient(1px_1px_at_73%_66%,rgba(255,255,255,0.49),transparent),radial-gradient(1px_1px_at_78%_12%,rgba(255,255,255,0.66),transparent),radial-gradient(1px_1px_at_83%_48%,rgba(255,255,255,0.5),transparent),radial-gradient(1px_1px_at_88%_76%,rgba(255,255,255,0.56),transparent),radial-gradient(1px_1px_at_93%_24%,rgba(255,255,255,0.62),transparent),radial-gradient(1px_1px_at_97%_60%,rgba(255,255,255,0.48),transparent)]" />
       <div className="pointer-events-none absolute inset-0 opacity-55 [background-image:radial-gradient(1.5px_1.5px_at_12%_8%,rgba(255,255,255,0.85),transparent),radial-gradient(1.5px_1.5px_at_39%_17%,rgba(255,255,255,0.78),transparent),radial-gradient(1.5px_1.5px_at_57%_33%,rgba(255,255,255,0.76),transparent),radial-gradient(1.5px_1.5px_at_76%_19%,rgba(255,255,255,0.84),transparent),radial-gradient(1.5px_1.5px_at_91%_42%,rgba(255,255,255,0.8),transparent),radial-gradient(1.5px_1.5px_at_24%_74%,rgba(255,255,255,0.74),transparent),radial-gradient(1.5px_1.5px_at_66%_81%,rgba(255,255,255,0.72),transparent)]" />
-      <div className="pointer-events-none absolute left-[7%] top-[34%] z-[1] h-36 w-36 sm:h-44 sm:w-44">
+      <div className="pointer-events-none absolute left-[7%] top-[34%] z-[1] hidden h-36 w-36 sm:block sm:h-44 sm:w-44">
         <div className="absolute inset-0 animate-[spin_22s_linear_infinite]">
           <span className="absolute left-[6%] top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-cyan-200/80 blur-[0.3px]" />
           <span className="absolute left-1/2 top-[7%] h-[3px] w-[3px] -translate-x-1/2 rounded-full bg-indigo-200/70 blur-[0.2px]" />
@@ -77,7 +77,7 @@ export function RecorridoSection() {
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div
-          className={`mb-12 text-center transition-all duration-700 ease-out ${
+          className={`mb-9 text-center transition-all duration-700 ease-out sm:mb-12 ${
             revealProgress > 0.01 ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
           }`}
           style={{
@@ -88,7 +88,7 @@ export function RecorridoSection() {
           <p id="recorrido-titulo" className="font-display text-[11px] font-bold uppercase tracking-[0.3em] text-sky-400/80">
             Ejemplos reales
           </p>
-          <h2 className="mt-2 font-display text-5xl font-extrabold leading-[1.07] tracking-tight text-white sm:text-[6.25rem]">
+          <h2 className="mt-2 font-display text-[clamp(2.3rem,10.4vw,2.85rem)] font-extrabold leading-[1.04] tracking-tight text-white sm:text-[6.25rem]">
             Landings en acción
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-base text-slate-400">
