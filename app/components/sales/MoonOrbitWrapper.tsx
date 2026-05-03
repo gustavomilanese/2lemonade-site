@@ -64,9 +64,9 @@ export function MoonOrbitLayer({ children }: { children: React.ReactNode }) {
         overflow: 'hidden',
       }}
       >
-      <div className="relative h-[42vh] overflow-hidden lg:hidden">
+      <div className="relative h-[56vh] overflow-hidden lg:hidden">
         <div className="pointer-events-none absolute inset-0">
-          <MoonBackdrop />
+          <MoonBackdrop mode="mobile" />
         </div>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-black/85" />
       </div>
@@ -97,7 +97,7 @@ export function MoonOrbitLayer({ children }: { children: React.ReactNode }) {
           overflow: 'hidden',
         }}
       >
-        <MoonBackdrop />
+        <MoonBackdrop mode="desktop" />
       </div>
 
       <div style={{ position: 'relative', zIndex: 10, background: 'transparent' }}>

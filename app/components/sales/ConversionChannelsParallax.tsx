@@ -102,7 +102,7 @@ export function ConversionChannelsParallax({ variant = "dark", mockupVideoSrc, m
             Velocidad y Precisión
           </h2>
           <p className={`mt-3 text-base leading-relaxed ${sub}`}>
-            Probá los botones: es el mismo camino que va a recorrer alguien que te encuentra hoy online.
+            Trabajamos rápido y con criterio profesional: cada paso está diseñado para convertir visitas en consultas reales.
           </p>
         </div>
 

@@ -133,6 +133,195 @@ function SaturnStellarDust({ scrollRef }: ScrollProps) {
   );
 }
 
+function HeroWebSpaceParticles({ scrollRef }: ScrollProps) {
+  const { size } = useThree();
+  const warmRef = useRef<THREE.Points>(null);
+  const coolRef = useRef<THREE.Points>(null);
+  const isDesktop = size.width >= 1024;
+
+  const warmPositions = useMemo(() => {
+    const count = 1600;
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i += 1) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 2.8 + Math.random() * 5.6;
+      const y = (Math.random() - 0.5) * 2.2;
+      const idx = i * 3;
+      pos[idx] = 0.95 + Math.cos(angle) * radius;
+      pos[idx + 1] = y;
+      pos[idx + 2] = Math.sin(angle) * radius;
+    }
+    return pos;
+  }, []);
+
+  const coolPositions = useMemo(() => {
+    const count = 1200;
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i += 1) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 3.2 + Math.random() * 6.2;
+      const y = (Math.random() - 0.5) * 2.8;
+      const idx = i * 3;
+      pos[idx] = 0.95 + Math.cos(angle) * radius;
+      pos[idx + 1] = y;
+      pos[idx + 2] = Math.sin(angle) * radius;
+    }
+    return pos;
+  }, []);
+
+  useFrame((_, delta) => {
+    if (!isDesktop) return;
+    const t = scrollRef.current;
+    const fadeOut = 1 - easeIn(range(t, 0.22, 0.44));
+    if (warmRef.current) {
+      warmRef.current.rotation.y += delta * 0.028;
+      warmRef.current.rotation.z += delta * 0.004;
+      const mat = warmRef.current.material as THREE.PointsMaterial;
+      mat.opacity = 0.34 * fadeOut;
+    }
+    if (coolRef.current) {
+      coolRef.current.rotation.y -= delta * 0.02;
+      coolRef.current.rotation.x += delta * 0.003;
+      const mat = coolRef.current.material as THREE.PointsMaterial;
+      mat.opacity = 0.28 * fadeOut;
+    }
+  });
+
+  if (!isDesktop) return null;
+
+  return (
+    <>
+      <points ref={warmRef} rotation={[Math.PI * 0.36, 0, 0]}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[warmPositions, 3]} />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.03}
+          color="#ffd7a2"
+          transparent
+          opacity={0.34}
+          blending={THREE.AdditiveBlending}
+          sizeAttenuation
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </points>
+      <points ref={coolRef} rotation={[Math.PI * 0.42, 0, 0]}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[coolPositions, 3]} />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.024}
+          color="#89d8ff"
+          transparent
+          opacity={0.28}
+          blending={THREE.AdditiveBlending}
+          sizeAttenuation
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </points>
+    </>
+  );
+}
+
+function HeroRearParticleRing({ scrollRef }: ScrollProps) {
+  const { size } = useThree();
+  const ringRef = useRef<THREE.Points>(null);
+  const haloRef = useRef<THREE.Points>(null);
+  const isDesktop = size.width >= 1024;
+
+  const ringPositions = useMemo(() => {
+    const count = 2600;
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i += 1) {
+      const angle = Math.random() * Math.PI * 2;
+      const radialMix = (Math.random() + Math.random()) * 0.5;
+      const radius = 4.95 + (7.05 - 4.95) * radialMix;
+      const thickness = (Math.random() - 0.5) * 0.24;
+      const idx = i * 3;
+      pos[idx] = Math.cos(angle) * radius;
+      pos[idx + 1] = thickness;
+      pos[idx + 2] = Math.sin(angle) * radius;
+    }
+    return pos;
+  }, []);
+
+  const haloPositions = useMemo(() => {
+    const count = 900;
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i += 1) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 7.2 + Math.random() * 1.6;
+      const thickness = (Math.random() - 0.5) * 0.4;
+      const idx = i * 3;
+      pos[idx] = Math.cos(angle) * radius;
+      pos[idx + 1] = thickness;
+      pos[idx + 2] = Math.sin(angle) * radius;
+    }
+    return pos;
+  }, []);
+
+  useFrame((state, delta) => {
+    if (!isDesktop) return;
+    const t = scrollRef.current;
+    const fadeOut = 1 - easeIn(range(t, 0.25, 0.45));
+    const slide = Math.sin(state.clock.elapsedTime * 0.11) * 0.58;
+
+    if (ringRef.current) {
+      ringRef.current.position.set(1.08 + slide, -0.08, -1.85);
+      ringRef.current.rotation.set(Math.PI * 0.37, -0.32, Math.PI * 0.045);
+      ringRef.current.rotation.y += delta * 0.01;
+      const mat = ringRef.current.material as THREE.PointsMaterial;
+      mat.opacity = 0.56 * fadeOut;
+    }
+    if (haloRef.current) {
+      haloRef.current.position.set(1.08 + slide * 0.9, -0.08, -1.95);
+      haloRef.current.rotation.set(Math.PI * 0.37, -0.32, Math.PI * 0.045);
+      haloRef.current.rotation.y -= delta * 0.006;
+      const mat = haloRef.current.material as THREE.PointsMaterial;
+      mat.opacity = 0.24 * fadeOut;
+    }
+  });
+
+  if (!isDesktop) return null;
+
+  return (
+    <>
+      <points ref={haloRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[haloPositions, 3]} />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.02}
+          color="#8fd2ff"
+          transparent
+          opacity={0.24}
+          blending={THREE.AdditiveBlending}
+          sizeAttenuation
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </points>
+      <points ref={ringRef}>
+        <bufferGeometry>
+          <bufferAttribute attach="attributes-position" args={[ringPositions, 3]} />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.027}
+          color="#ffd6a3"
+          transparent
+          opacity={0.56}
+          blending={THREE.AdditiveBlending}
+          sizeAttenuation
+          depthWrite={false}
+          toneMapped={false}
+        />
+      </points>
+    </>
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Saturn
 // ---------------------------------------------------------------------------
@@ -214,12 +403,12 @@ function Saturn({ scrollRef }: ScrollProps) {
         <sphereGeometry args={[2.05, 96, 96]} />
         <meshStandardMaterial
           map={albedo}
-          color="#7f95b4"
-          roughness={0.8}
+          color="#4f6076"
+          roughness={0.86}
           metalness={0}
           emissiveMap={night}
-          emissive="#ffd29a"
-          emissiveIntensity={2.5}
+          emissive="#ffdba8"
+          emissiveIntensity={3.35}
         />
       </mesh>
 
@@ -229,7 +418,7 @@ function Saturn({ scrollRef }: ScrollProps) {
         <meshBasicMaterial
           map={night}
           transparent
-          opacity={0.88}
+          opacity={1}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
           toneMapped={false}
@@ -241,11 +430,11 @@ function Saturn({ scrollRef }: ScrollProps) {
         <sphereGeometry args={[2.05, 72, 72]} />
         <meshStandardMaterial
           alphaMap={clouds}
-          color="#d9e2ef"
+          color="#c5d0dc"
           roughness={0.9}
           metalness={0}
           transparent
-          opacity={0.62}
+          opacity={0.46}
           depthWrite={false}
         />
       </mesh>
@@ -256,7 +445,7 @@ function Saturn({ scrollRef }: ScrollProps) {
         <meshBasicMaterial
           color="#5ba3d8"
           transparent
-          opacity={0.1}
+          opacity={0.08}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />
@@ -904,6 +1093,8 @@ function SceneContent({
         noise={1}
         color="#8fd2ff"
       />
+      <HeroRearParticleRing scrollRef={scrollRef} />
+      <HeroWebSpaceParticles scrollRef={scrollRef} />
       <Saturn scrollRef={scrollRef} />
       <OrbitingMoon scrollRef={scrollRef} radius={5.5} speed={0.45} size={0.22} color="#d0d0d0" initialAngle={0} />
       <OrbitingMoon scrollRef={scrollRef} radius={7.0} speed={0.28} size={0.16} color="#b8b8b8" initialAngle={2.1} />

@@ -19,12 +19,17 @@ const BASE_Y = -1.85;
 
 export const moonOrbit = { target: 0 };
 
-function getXYZ(progress: number) {
+type BackdropMode = 'desktop' | 'mobile';
+
+function getXYZ(progress: number, mode: BackdropMode) {
   const u = THREE.MathUtils.clamp((progress + 0.02) / 1.0, 0, 1);
   const w = Math.sin((u * 1.2 + 0.05) * Math.PI);
+  const xStart = mode === 'mobile' ? -0.24 : -2.05;
+  const xEnd = mode === 'mobile' ? 0.18 : -1.72;
+  const yBase = mode === 'mobile' ? -1.66 : BASE_Y;
   return {
-    x: THREE.MathUtils.lerp(-2.05, -1.72, u),
-    y: BASE_Y + Math.sin(u * Math.PI) * (ORBIT_B * 0.34) - 0.02,
+    x: THREE.MathUtils.lerp(xStart, xEnd, u),
+    y: yBase + Math.sin(u * Math.PI) * (ORBIT_B * 0.34) - 0.02,
     z: -3.85 + w * (ORBIT_DEPTH * 0.12),
     u,
   };
@@ -122,13 +127,16 @@ function AuroraLayer({
 
 // ── Earth ─────────────────────────────────────────────────────────────────────
 
-function Earth() {
+function Earth({ mode = 'desktop' }: { mode?: BackdropMode }) {
   const groupRef   = useRef<THREE.Group>(null);
   const surfaceRef = useRef<THREE.MeshStandardMaterial>(null);
+  const cityRef = useRef<THREE.MeshBasicMaterial>(null);
+  const cloudMatRef = useRef<THREE.MeshStandardMaterial>(null);
   const cloudRef   = useRef<THREE.Mesh>(null);
   const progressRef = useRef(0);
   const prevRef    = useRef(0);
   const rotY       = useRef(0);
+  const isMobile = mode === 'mobile';
 
   const [albedoTex, cloudsTex, nightTex] = useTexture([
     '/textures/earth_albedo.jpg',
@@ -160,7 +168,7 @@ function Earth() {
     const alpha = 1 - Math.exp(-delta * 4.2);
     progressRef.current = THREE.MathUtils.lerp(progressRef.current, moonOrbit.target, alpha);
 
-    const { x, y, z, u } = getXYZ(progressRef.current);
+    const { x, y, z, u } = getXYZ(progressRef.current, mode);
 
     const dProgress = progressRef.current - prevRef.current;
     rotY.current += dProgress * 1.45;
@@ -169,7 +177,9 @@ function Earth() {
     if (groupRef.current) {
       groupRef.current.position.set(x, y, z);
       groupRef.current.rotation.set(0.12, rotY.current, -0.06);
-      groupRef.current.scale.setScalar(THREE.MathUtils.lerp(1.0, 0.98, u));
+      const baseScale = isMobile ? 1.58 : 1.0;
+      const targetScale = isMobile ? 1.5 : 0.98;
+      groupRef.current.scale.setScalar(THREE.MathUtils.lerp(baseScale, targetScale, u));
     }
 
     // Clouds drift slowly on their own axis
@@ -179,7 +189,16 @@ function Earth() {
 
     if (surfaceRef.current) {
       const fadeIn = THREE.MathUtils.smoothstep(u, 0.0, 0.06);
-      surfaceRef.current.opacity = 0.88 + fadeIn * 0.1;
+      surfaceRef.current.opacity = isMobile ? 0.84 + fadeIn * 0.14 : 0.88 + fadeIn * 0.1;
+      surfaceRef.current.emissiveIntensity = isMobile ? 2.25 : 1.65;
+    }
+
+    if (cityRef.current) {
+      cityRef.current.opacity = isMobile ? 0.84 : 0.55;
+    }
+
+    if (cloudMatRef.current) {
+      cloudMatRef.current.opacity = isMobile ? 0.72 : 0.82;
     }
   });
 
@@ -211,6 +230,7 @@ function Earth() {
       <mesh renderOrder={2.5}>
         <sphereGeometry args={[MOON_R * 1.0015, 128, 128]} />
         <meshBasicMaterial
+          ref={cityRef}
           map={night}
           transparent
           opacity={0.55}
@@ -224,6 +244,7 @@ function Earth() {
       <mesh ref={cloudRef} renderOrder={3}>
         <sphereGeometry args={[MOON_R * 1.008, 96, 96]} />
         <meshStandardMaterial
+          ref={cloudMatRef}
           alphaMap={clouds}
           color="#ffffff"
           roughness={0.9}
@@ -239,24 +260,25 @@ function Earth() {
 
 // ── Lighting — warm sunlight for Earth ────────────────────────────────────────
 
-function SceneLights() {
+function SceneLights({ mode = 'desktop' }: { mode?: BackdropMode }) {
+  const isMobile = mode === 'mobile';
   return (
     <>
-      <ambientLight intensity={0.12} color="#10152a" />
+      <ambientLight intensity={isMobile ? 0.08 : 0.12} color="#10152a" />
       {/* Key — warm golden sunlight */}
-      <directionalLight position={[6.4, 2.4, 8.5]} intensity={2.1} color="#ffe8c0" />
+      <directionalLight position={[6.4, 2.4, 8.5]} intensity={isMobile ? 1.7 : 2.1} color="#ffe8c0" />
       {/* Cold space fill */}
       <directionalLight position={[-4.8, -1.0, 4.8]} intensity={0.06} color="#1a2050" />
       {/* Rim from behind — makes the atmospheric limb glow */}
-      <directionalLight position={[-1.8, 0.6, -7.0]} intensity={0.4} color="#2244bb" />
-      <pointLight position={[0.7, BASE_Y + 0.1, 3.2]} intensity={0.2} color="#c8d8f8" decay={2} />
+      <directionalLight position={[-1.8, 0.6, -7.0]} intensity={isMobile ? 0.55 : 0.4} color="#2244bb" />
+      <pointLight position={[0.7, BASE_Y + 0.1, 3.2]} intensity={isMobile ? 0.3 : 0.2} color="#c8d8f8" decay={2} />
     </>
   );
 }
 
 // ── Canvas ────────────────────────────────────────────────────────────────────
 
-export function MoonBackdrop() {
+export function MoonBackdrop({ mode = 'desktop' }: { mode?: BackdropMode }) {
   return (
     <Canvas
       camera={{ position: [0, 0, 11.8], fov: 48 }}
@@ -269,9 +291,9 @@ export function MoonBackdrop() {
       }}
       style={{ background: 'transparent' }}
     >
-      <SceneLights />
+      <SceneLights mode={mode} />
       <Suspense fallback={null}>
-        <Earth />
+        <Earth mode={mode} />
       </Suspense>
     </Canvas>
   );
