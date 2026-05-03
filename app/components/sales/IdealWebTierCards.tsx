@@ -58,7 +58,7 @@ export function IdealWebTierCards({ infoHref }: Props) {
 
   return (
     <div className="relative z-10 lg:max-w-[960px]">
-      <div className="mb-8 sm:mb-10">
+      <div className="mb-8 text-center sm:mb-10">
         <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.34em] text-cyan-300/80">
           Arquitectura de conversión
         </p>
@@ -71,16 +71,16 @@ export function IdealWebTierCards({ infoHref }: Props) {
             Diferente
           </span>
         </h2>
-        <p className="mt-4 max-w-2xl text-sm text-slate-300 sm:text-base">
+        <p className="mx-auto mt-4 max-w-2xl text-sm text-slate-300 sm:text-base">
           Sistema, mensaje y performance trabajando juntos para que cada visita avance hacia una conversación real.
         </p>
       </div>
 
       <section
         ref={ref}
-        className="relative overflow-hidden rounded-[2rem] border border-cyan-100/24 bg-[linear-gradient(160deg,rgba(2,10,18,0.94),rgba(2,6,14,0.98))] backdrop-blur-xl"
+        className="relative overflow-hidden rounded-[1.6rem] border border-cyan-100/24 bg-[linear-gradient(180deg,rgba(10,20,38,0.95),rgba(4,8,20,0.98))] backdrop-blur-xl sm:rounded-[2rem] lg:bg-[linear-gradient(160deg,rgba(2,10,18,0.94),rgba(2,6,14,0.98))]"
         style={{
-          boxShadow: "0 34px 90px -42px rgba(34,211,238,0.55), inset 0 0 0 1px rgba(186,230,253,0.08)",
+          boxShadow: "0 24px 70px -38px rgba(59,130,246,0.62), inset 0 0 0 1px rgba(186,230,253,0.08)",
         }}
         aria-labelledby="ideal-web-heading"
       >
@@ -96,23 +96,23 @@ export function IdealWebTierCards({ infoHref }: Props) {
         <div className="pointer-events-none absolute -left-20 top-10 h-48 w-48 rounded-full bg-sky-400/18 blur-[80px]" />
         <div className="pointer-events-none absolute -right-16 top-24 h-56 w-56 rounded-full bg-violet-400/16 blur-[90px]" />
 
-        <div className="relative grid lg:grid-cols-[1.08fr_0.92fr]">
-          <div className="border-b border-cyan-300/16 p-6 sm:p-8 lg:border-b-0 lg:border-r lg:p-10">
-            <div className="flex items-center gap-2">
+        <div className="relative grid gap-4 p-4 sm:gap-5 sm:p-5 lg:grid-cols-[1.08fr_0.92fr] lg:gap-0 lg:p-0">
+          <div className="rounded-2xl border border-cyan-200/22 bg-[#061225]/82 p-5 shadow-[0_26px_64px_-38px_rgba(56,189,248,0.62)] sm:p-7 lg:rounded-none lg:border-b-0 lg:border-r lg:border-cyan-300/16 lg:bg-transparent lg:p-10 lg:shadow-none">
+            <div className="flex items-center justify-center gap-2 lg:justify-start">
               <span className="h-2 w-2 rounded-full bg-cyan-300" />
               <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-200/80">
                 Enfoque comercial
               </p>
             </div>
-            <p className="mt-4 max-w-xl text-pretty text-base leading-relaxed text-slate-200">
+            <p className="mx-auto mt-4 max-w-xl text-pretty text-center text-base leading-relaxed text-slate-200 lg:mx-0 lg:text-left">
               Necesitás una web que explique tu propuesta con claridad, construya confianza desde el primer scroll y convierta visitas en conversaciones de venta.
             </p>
 
-            <ul className="mt-8 space-y-4">
+            <ul className="mx-auto mt-7 max-w-xl space-y-4 lg:mt-8 lg:max-w-none">
               {pillars.map((p, i) => (
                 <li
                   key={p.title}
-                  className={`group/item relative overflow-hidden rounded-2xl border p-4 backdrop-blur-sm transition-all duration-700 ease-out sm:p-5 ${p.border} ${p.bg} ${
+                  className={`group/item relative overflow-hidden rounded-2xl border p-4 text-center shadow-[0_20px_50px_-34px_rgba(56,189,248,0.75)] backdrop-blur-sm transition-all duration-700 ease-out sm:p-5 lg:text-left ${p.border} ${p.bg} ${
                     revealed ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
                   }`}
                   style={{ transitionDelay: revealed ? `${i * 120}ms` : "0ms" }}
@@ -120,10 +120,7 @@ export function IdealWebTierCards({ infoHref }: Props) {
                   <div className={`absolute inset-y-0 left-0 w-1 ${p.dot}`} />
                   <div className="absolute inset-0 opacity-0 transition duration-500 group-hover/item:opacity-100" style={{ background: "linear-gradient(110deg, rgba(125,211,252,0.12), transparent 42%)" }} />
                   <div className="relative pl-3">
-                    <p className={`text-[11px] font-bold uppercase tracking-[0.16em] ${p.label}`}>
-                      {String(i + 1).padStart(2, "0")} · Pilar
-                    </p>
-                    <p className="mt-1 text-lg font-black tracking-tight text-cyan-50 sm:text-xl">
+                    <p className="text-lg font-black tracking-tight text-cyan-50 sm:text-xl">
                       {p.title}
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-slate-300">
@@ -138,7 +135,7 @@ export function IdealWebTierCards({ infoHref }: Props) {
           <div
             className={`p-6 transition-all duration-700 ease-out sm:p-8 lg:p-10 ${
               revealed ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"
-            }`}
+            } hidden rounded-2xl border border-cyan-200/20 bg-[#061225]/82 shadow-[0_26px_64px_-38px_rgba(56,189,248,0.62)] lg:block lg:rounded-none lg:border-0 lg:bg-transparent lg:shadow-none`}
             style={{ transitionDelay: revealed ? "180ms" : "0ms" }}
           >
             <div className="mb-6 grid grid-cols-2 gap-3">
@@ -152,7 +149,7 @@ export function IdealWebTierCards({ infoHref }: Props) {
               </div>
             </div>
 
-            <div className="mb-5 flex items-center gap-2">
+            <div className="mb-5 flex items-center justify-center gap-2 lg:justify-start">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
@@ -162,7 +159,7 @@ export function IdealWebTierCards({ infoHref }: Props) {
               </span>
             </div>
 
-            <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.28em] text-cyan-100/45">
+            <p className="mb-5 text-center font-mono text-[10px] uppercase tracking-[0.28em] text-cyan-100/45 lg:text-left">
               Rendimiento web
             </p>
 
@@ -188,9 +185,9 @@ export function IdealWebTierCards({ infoHref }: Props) {
               ))}
             </div>
 
-            <div className="mt-8 rounded-2xl border border-cyan-300/24 bg-cyan-500/[0.08] p-4">
+            <div className="mt-8 rounded-2xl border border-cyan-300/24 bg-cyan-500/[0.12] p-4 shadow-[0_18px_40px_-24px_rgba(34,211,238,0.45)]">
               <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-cyan-300/80">Objetivo</p>
-              <p className="mt-2 text-base font-semibold leading-relaxed text-slate-100">
+              <p className="mt-2 text-center text-base font-semibold leading-relaxed text-slate-100 lg:text-left">
                 Convertir tráfico frío en consultas calificadas.
               </p>
             </div>

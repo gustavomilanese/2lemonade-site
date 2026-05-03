@@ -2,9 +2,13 @@
 
 import { useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Stars, Sparkles, Environment, Edges, RoundedBox } from '@react-three/drei';
+import { Stars, Sparkles, Environment, Edges, RoundedBox, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import { whatsappLinkWithText } from '@/app/lib/sales/contact';
+
+useTexture.preload('/textures/earth_albedo.jpg');
+useTexture.preload('/textures/earth_clouds.jpg');
+useTexture.preload('/textures/earth_night.jpg');
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -26,151 +30,103 @@ interface ScrollProps {
   scrollRef: React.MutableRefObject<number>;
 }
 
-interface DustRingProps {
-  innerRadius: number;
-  outerRadius: number;
-  count: number;
-  color: string;
-  tilt?: [number, number, number];
-  thickness?: number;
-  size?: number;
-  opacity?: number;
-}
-
-function seeded(n: number) {
-  const v = Math.sin(n * 12.9898) * 43758.5453;
-  return v - Math.floor(v);
-}
-
-function mixColor(
-  a: [number, number, number],
-  b: [number, number, number],
-  t: number,
-): [number, number, number] {
-  return [
-    a[0] + (b[0] - a[0]) * t,
-    a[1] + (b[1] - a[1]) * t,
-    a[2] + (b[2] - a[2]) * t,
-  ];
-}
-
-function buildSaturnTexture() {
-  const width = 1024;
-  const height = 512;
-  const data = new Uint8Array(width * height * 4);
-
-  const palette: [number, number, number][] = [
-    [245, 213, 156],
-    [188, 198, 228],
-    [221, 172, 108],
-    [204, 135, 86],
-    [154, 182, 220],
-    [166, 103, 74],
-    [234, 199, 130],
-    [164, 196, 236],
-    [142, 84, 61],
-    [246, 221, 172],
-  ];
-
-  for (let y = 0; y < height; y += 1) {
-    const v = y / (height - 1);
-    const latWave =
-      Math.sin(v * Math.PI * 9.0 + 0.2) * 0.22 +
-      Math.sin(v * Math.PI * 21.0 + 1.1) * 0.08 +
-      Math.sin(v * Math.PI * 3.2 + 2.4) * 0.12;
-    const band = clamp01(v + latWave * 0.1);
-    const p = band * (palette.length - 1);
-    const i = Math.floor(p);
-    const t = p - i;
-    const baseA = palette[i];
-    const baseB = palette[Math.min(i + 1, palette.length - 1)];
-    const base = mixColor(baseA, baseB, t);
-
-    for (let x = 0; x < width; x += 1) {
-      const u = x / (width - 1);
-      const jetstream = Math.sin(u * Math.PI * 3.0 + v * Math.PI * 2.4) * 0.035;
-      const micro = Math.sin(u * Math.PI * 26 + v * Math.PI * 36) * 0.015;
-      const stormCell =
-        Math.exp(-(((u - 0.72) ** 2) / 0.008 + ((v - 0.58) ** 2) / 0.0018)) * 0.08;
-      const grain = (seeded(x * 0.14 + y * 0.31) - 0.5) * 0.02;
-      const poleShade = Math.abs(v - 0.5) * 0.22;
-      const light = 0.95 + jetstream + micro + stormCell + grain - poleShade;
-      const blueMix = clamp01(
-        Math.max(
-          0,
-          Math.sin(v * Math.PI * 15.5 + 0.4) * 0.5 +
-          Math.sin(v * Math.PI * 6.2 + 1.2) * 0.5,
-        ),
-      ) * 0.14;
-      const blueTint: [number, number, number] = [158, 198, 245];
-      const toned = mixColor(base, blueTint, blueMix);
-
-      const idx = (y * width + x) * 4;
-      data[idx] = Math.round(clamp01((toned[0] / 255) * light) * 255);
-      data[idx + 1] = Math.round(clamp01((toned[1] / 255) * light) * 255);
-      data[idx + 2] = Math.round(clamp01((toned[2] / 255) * light) * 255);
-      data[idx + 3] = 255;
-    }
+const NORTH_AURORA_VERT = `
+  varying vec3 vNormal;
+  varying vec3 vWorld;
+  void main() {
+    vNormal = normalize(normalMatrix * normal);
+    vec4 worldPos = modelMatrix * vec4(position, 1.0);
+    vWorld = worldPos.xyz;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
+`;
 
-  const texture = new THREE.DataTexture(data, width, height, THREE.RGBAFormat);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.ClampToEdgeWrapping;
-  texture.needsUpdate = true;
-  return texture;
-}
+const NORTH_AURORA_FRAG = `
+  varying vec3 vNormal;
+  varying vec3 vWorld;
+  uniform float uTime;
+  uniform float uOpacity;
 
-function DustRing({
-  innerRadius,
-  outerRadius,
-  count,
-  color,
-  tilt = [Math.PI * 0.42, 0, 0],
-  thickness = 0.08,
-  size = 0.028,
-  opacity = 0.78,
-}: DustRingProps) {
+  void main() {
+    vec3 n = normalize(vNormal);
+    float northMask = smoothstep(0.22, 0.92, n.y);
+    if (northMask <= 0.01) {
+      discard;
+    }
+
+    float swirlA = sin(vWorld.x * 2.2 + vWorld.z * 1.7 + uTime * 0.7) * 0.5 + 0.5;
+    float swirlB = sin(vWorld.z * 2.9 - vWorld.x * 1.4 - uTime * 1.05 + 1.2) * 0.5 + 0.5;
+    float ribbons = smoothstep(0.18, 0.86, swirlA * swirlB);
+
+    vec3 cyan = vec3(0.35, 0.96, 1.0);
+    vec3 green = vec3(0.18, 1.0, 0.62);
+    vec3 violet = vec3(0.62, 0.47, 1.0);
+    vec3 aurora = mix(cyan, green, swirlA);
+    aurora = mix(aurora, violet, swirlB * 0.3);
+
+    float baseGlow = 0.34 + ribbons * 0.66;
+    float alpha = northMask * baseGlow * uOpacity;
+    gl_FragColor = vec4(aurora, alpha);
+  }
+`;
+
+function SaturnStellarDust({ scrollRef }: ScrollProps) {
+  const dustRef = useRef<THREE.Points>(null);
+  const count = 2400;
   const { positions, colors } = useMemo(() => {
     const pos = new Float32Array(count * 3);
     const col = new Float32Array(count * 3);
-    const baseColor = new THREE.Color(color);
+    const warm = new THREE.Color('#f8d9a8');
+    const cyan = new THREE.Color('#7ec8ff');
+    const violet = new THREE.Color('#8d82ff');
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < count; i += 1) {
+      const radius = 3.2 + Math.random() * 4.6;
       const angle = Math.random() * Math.PI * 2;
-      const radialMix = (Math.random() + Math.random()) * 0.5;
-      const radius = innerRadius + (outerRadius - innerRadius) * radialMix;
-      const y = (Math.random() - 0.5) * thickness * (0.4 + Math.random() * 0.6);
-
+      const y = (Math.random() - 0.5) * 1.6;
       const idx = i * 3;
+
       pos[idx] = Math.cos(angle) * radius;
       pos[idx + 1] = y;
       pos[idx + 2] = Math.sin(angle) * radius;
 
-      const brightness = 0.52 + Math.random() * 0.48;
-      const c = baseColor.clone().multiplyScalar(brightness);
+      const c = warm
+        .clone()
+        .lerp(cyan, Math.random() * 0.7)
+        .lerp(violet, Math.random() * 0.45)
+        .multiplyScalar(0.45 + Math.random() * 0.55);
       col[idx] = c.r;
       col[idx + 1] = c.g;
       col[idx + 2] = c.b;
     }
 
     return { positions: pos, colors: col };
-  }, [innerRadius, outerRadius, count, color, thickness]);
+  }, []);
+
+  useFrame((_, delta) => {
+    const dust = dustRef.current;
+    if (!dust) return;
+    const t = scrollRef.current;
+    const hideProgress = easeIn(range(t, 0.25, 0.45));
+    dust.rotation.y += delta * 0.015;
+    dust.rotation.z += delta * 0.004;
+    dust.scale.setScalar(1 - hideProgress * 0.08);
+  });
 
   return (
-    <points rotation={tilt}>
+    <points ref={dustRef} rotation={[Math.PI * 0.4, 0, 0]}>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
         <bufferAttribute attach="attributes-color" args={[colors, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={size}
+        size={0.025}
         vertexColors
         transparent
-        opacity={opacity}
-        depthWrite={false}
-        sizeAttenuation
+        opacity={0.38}
         blending={THREE.AdditiveBlending}
+        sizeAttenuation
+        depthWrite={false}
         toneMapped={false}
       />
     </points>
@@ -183,58 +139,148 @@ function DustRing({
 
 function Saturn({ scrollRef }: ScrollProps) {
   const groupRef = useRef<THREE.Group>(null);
-  const saturnTexture = useMemo(() => buildSaturnTexture(), []);
-  const baseScale = 1.32;
+  const cloudRef = useRef<THREE.Mesh>(null);
+  const auroraMaterial = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        vertexShader: NORTH_AURORA_VERT,
+        fragmentShader: NORTH_AURORA_FRAG,
+        uniforms: {
+          uTime: { value: 0 },
+          uOpacity: { value: 0.72 },
+        },
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        side: THREE.FrontSide,
+      }),
+    [],
+  );
+  const baseScale = 1.98;
   const baseOffsetX = 1.1;
+  const [albedoTex, cloudsTex, nightTex] = useTexture([
+    '/textures/earth_albedo.jpg',
+    '/textures/earth_clouds.jpg',
+    '/textures/earth_night.jpg',
+  ]);
+  const [albedo, clouds, night] = useMemo(() => {
+    const a = albedoTex.clone();
+    const c = cloudsTex.clone();
+    const n = nightTex.clone();
+
+    a.colorSpace = THREE.SRGBColorSpace;
+    c.colorSpace = THREE.SRGBColorSpace;
+    n.colorSpace = THREE.SRGBColorSpace;
+
+    a.anisotropy = 8;
+    c.anisotropy = 8;
+    n.anisotropy = 8;
+
+    a.needsUpdate = true;
+    c.needsUpdate = true;
+    n.needsUpdate = true;
+
+    return [a, c, n];
+  }, [albedoTex, cloudsTex, nightTex]);
 
   useEffect(() => {
     return () => {
-      saturnTexture.dispose();
+      albedo.dispose();
+      clouds.dispose();
+      night.dispose();
+      auroraMaterial.dispose();
     };
-  }, [saturnTexture]);
+  }, [albedo, clouds, night, auroraMaterial]);
 
   useFrame((_, delta) => {
     const group = groupRef.current;
     if (!group) return;
     const t = scrollRef.current;
-    group.rotation.y += delta * 0.12;
+    group.rotation.y += delta * 0.095;
     const hideProgress = easeIn(range(t, 0.25, 0.45));
     group.scale.setScalar((1 - hideProgress) * baseScale);
     group.position.x = baseOffsetX;
     group.position.y = -hideProgress * 2;
+    if (cloudRef.current) {
+      cloudRef.current.rotation.y += delta * 0.03;
+    }
+    auroraMaterial.uniforms.uTime.value += delta;
   });
 
   return (
     <group ref={groupRef}>
-      {/* Main body */}
-      <mesh rotation={[0.07, -0.24, 0]} scale={[1, 0.9, 1]}>
-        <sphereGeometry args={[2.0, 96, 96]} />
+      {/* Earth body */}
+      <mesh rotation={[0.04, -0.26, 0]} scale={[1, 0.96, 1]}>
+        <sphereGeometry args={[2.05, 96, 96]} />
         <meshStandardMaterial
-          map={saturnTexture}
-          color="#f8e0b5"
-          roughness={0.86}
+          map={albedo}
+          color="#7f95b4"
+          roughness={0.8}
           metalness={0}
+          emissiveMap={night}
+          emissive="#ffd29a"
+          emissiveIntensity={2.5}
         />
       </mesh>
-      <mesh rotation={[0.07, -0.24, 0]} scale={[1.035, 0.925, 1.035]}>
-        <sphereGeometry args={[2.0, 56, 56]} />
+
+      {/* Night lights boost */}
+      <mesh rotation={[0.04, -0.26, 0]} scale={[1.003, 0.963, 1.003]}>
+        <sphereGeometry args={[2.05, 80, 80]} />
         <meshBasicMaterial
-          color="#ffd7a4"
+          map={night}
           transparent
-          opacity={0.06}
+          opacity={0.88}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+          toneMapped={false}
+        />
+      </mesh>
+
+      {/* Cloud layer */}
+      <mesh ref={cloudRef} rotation={[0.04, -0.26, 0]} scale={[1.013, 0.973, 1.013]}>
+        <sphereGeometry args={[2.05, 72, 72]} />
+        <meshStandardMaterial
+          alphaMap={clouds}
+          color="#d9e2ef"
+          roughness={0.9}
+          metalness={0}
+          transparent
+          opacity={0.62}
+          depthWrite={false}
+        />
+      </mesh>
+
+      {/* Atmosphere halo */}
+      <mesh rotation={[0.04, -0.26, 0]} scale={[1.03, 0.99, 1.03]}>
+        <sphereGeometry args={[2.05, 56, 56]} />
+        <meshBasicMaterial
+          color="#5ba3d8"
+          transparent
+          opacity={0.1}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />
       </mesh>
 
-      {/* Dust rings: layered particle belts + central gap for a more natural interstellar look */}
-      <DustRing innerRadius={2.45} outerRadius={2.92} count={1600} color="#d9b066" size={0.03} opacity={0.82} thickness={0.11} />
-      <DustRing innerRadius={3.02} outerRadius={3.38} count={1300} color="#c9974b" size={0.028} opacity={0.72} thickness={0.1} />
-      {/* Cassini-like sparse gap */}
-      <DustRing innerRadius={3.47} outerRadius={3.62} count={300} color="#9c6b32" size={0.02} opacity={0.28} thickness={0.08} />
-      <DustRing innerRadius={3.7} outerRadius={4.24} count={1200} color="#b97d3d" size={0.026} opacity={0.6} thickness={0.1} />
-      {/* Fine halo dust */}
-      <DustRing innerRadius={4.24} outerRadius={4.62} count={420} color="#8b5a2c" size={0.017} opacity={0.22} thickness={0.12} />
+      {/* Cool contrast pass */}
+      <mesh rotation={[0.04, -0.26, 0]} scale={[1.012, 0.972, 1.012]}>
+        <sphereGeometry args={[2.05, 64, 64]} />
+        <meshBasicMaterial
+          color="#2c6aa8"
+          transparent
+          opacity={0.08}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+
+      {/* Northern aurora */}
+      <mesh rotation={[0.04, -0.26, 0]} scale={[1.041, 1.0, 1.041]}>
+        <sphereGeometry args={[2.05, 72, 72]} />
+        <primitive object={auroraMaterial} attach="material" />
+      </mesh>
+
+      <SaturnStellarDust scrollRef={scrollRef} />
     </group>
   );
 }
@@ -839,13 +885,25 @@ function AmbientLighting({ scrollRef }: ScrollProps) {
 // SceneContent
 // ---------------------------------------------------------------------------
 
-function SceneContent({ scrollRef }: { scrollRef: React.MutableRefObject<number> }) {
+function SceneContent({
+  scrollRef,
+}: {
+  scrollRef: React.MutableRefObject<number>;
+}) {
   return (
     <>
       <color attach="background" args={['#000008']} />
       <AmbientLighting scrollRef={scrollRef} />
       <Environment preset="night" />
-      <Stars radius={80} depth={40} count={1000} factor={2.9} saturation={0} fade speed={0.2} />
+      <Stars radius={80} depth={40} count={1300} factor={3.25} saturation={0.16} fade speed={0.2} />
+      <Sparkles
+        count={210}
+        scale={[24, 10, 24]}
+        size={2.2}
+        speed={0.17}
+        noise={1}
+        color="#8fd2ff"
+      />
       <Saturn scrollRef={scrollRef} />
       <OrbitingMoon scrollRef={scrollRef} radius={5.5} speed={0.45} size={0.22} color="#d0d0d0" initialAngle={0} />
       <OrbitingMoon scrollRef={scrollRef} radius={7.0} speed={0.28} size={0.16} color="#b8b8b8" initialAngle={2.1} />

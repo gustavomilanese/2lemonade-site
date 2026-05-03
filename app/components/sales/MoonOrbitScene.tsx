@@ -14,7 +14,7 @@ useTexture.preload('/textures/earth_night.jpg');
 export const ORBIT_A = 8.4;
 export const ORBIT_B = 0.22;
 export const ORBIT_DEPTH = 1.25;
-export const MOON_R = 3.5;
+export const MOON_R = 4.0;
 const BASE_Y = -1.85;
 
 export const moonOrbit = { target: 0 };
@@ -23,7 +23,7 @@ function getXYZ(progress: number) {
   const u = THREE.MathUtils.clamp((progress + 0.02) / 1.0, 0, 1);
   const w = Math.sin((u * 1.2 + 0.05) * Math.PI);
   return {
-    x: THREE.MathUtils.lerp(-2.5, -2.2, u),
+    x: THREE.MathUtils.lerp(-2.05, -1.72, u),
     y: BASE_Y + Math.sin(u * Math.PI) * (ORBIT_B * 0.34) - 0.02,
     z: -3.85 + w * (ORBIT_DEPTH * 0.12),
     u,
@@ -184,7 +184,7 @@ function Earth() {
   });
 
   return (
-    <group ref={groupRef} position={[-2.5, BASE_Y, -3.85]}>
+    <group ref={groupRef} position={[-2.05, BASE_Y, -3.85]}>
       {/* Wide outer aurora glow */}
       <AuroraLayer radius={MOON_R * 1.26} power={1.6} opacity={0.45} timeScale={0.55} order={0} />
       {/* Tight inner halo */}
@@ -199,11 +199,24 @@ function Earth() {
           roughness={0.68}
           metalness={0.0}
           emissiveMap={night}
-          emissive="#ffb866"
-          emissiveIntensity={0.95}
+          emissive="#ffcc85"
+          emissiveIntensity={1.65}
           transparent
           depthWrite={false}
-          opacity={0.88}
+          opacity={0.92}
+        />
+      </mesh>
+
+      {/* Extra city-lights pass to make illuminated areas pop more */}
+      <mesh renderOrder={2.5}>
+        <sphereGeometry args={[MOON_R * 1.0015, 128, 128]} />
+        <meshBasicMaterial
+          map={night}
+          transparent
+          opacity={0.55}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          toneMapped={false}
         />
       </mesh>
 
@@ -252,7 +265,7 @@ export function MoonBackdrop() {
       onCreated={({ gl }) => {
         gl.setClearColor(0x000000, 0);
         gl.toneMapping = THREE.ACESFilmicToneMapping;
-        gl.toneMappingExposure = 1.15;
+        gl.toneMappingExposure = 1.2;
       }}
       style={{ background: 'transparent' }}
     >

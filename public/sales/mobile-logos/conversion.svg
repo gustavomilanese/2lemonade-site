@@ -1,0 +1,23 @@
+<svg width="960" height="540" viewBox="0 0 960 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="24" x2="872" y2="520" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0B2024"/>
+      <stop offset="0.58" stop-color="#103739"/>
+      <stop offset="1" stop-color="#14524F"/>
+    </linearGradient>
+    <linearGradient id="flow" x1="230" y1="176" x2="738" y2="356" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6BE6C2"/>
+      <stop offset="1" stop-color="#3ED2A8"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" rx="40" fill="url(#bg)"/>
+  <rect x="62" y="62" width="836" height="416" rx="28" fill="#061414" fill-opacity="0.58" stroke="#76E7CC" stroke-opacity="0.35" stroke-width="2"/>
+  <circle cx="240" cy="270" r="56" fill="#6BE6C2" fill-opacity="0.2" stroke="#8EFFE5" stroke-width="3"/>
+  <circle cx="480" cy="270" r="56" fill="#6BE6C2" fill-opacity="0.2" stroke="#8EFFE5" stroke-width="3"/>
+  <circle cx="720" cy="270" r="56" fill="#6BE6C2" fill-opacity="0.2" stroke="#8EFFE5" stroke-width="3"/>
+  <path d="M304 270H410" stroke="url(#flow)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M544 270H650" stroke="url(#flow)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M392 250L420 270L392 290" stroke="#B9FFE9" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M632 250L660 270L632 290" stroke="#B9FFE9" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="102" y="436" fill="#E6FFF5" fill-opacity="0.94" font-family="Arial, sans-serif" font-size="40" font-weight="700">Más Conversión</text>
+</svg>

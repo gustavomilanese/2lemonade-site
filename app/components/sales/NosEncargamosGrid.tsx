@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
 const NosEncargamosScene = dynamic(
@@ -49,6 +49,73 @@ function IconCube({ className }: { className?: string }) {
   );
 }
 
+type MobileVisualKind = 'claridad' | 'experiencia3d' | 'infraestructura' | 'conversion';
+
+function MobileCardVisual({ kind, accent }: { kind: MobileVisualKind; accent: string }) {
+  return (
+    <div className="relative mb-4 h-32 w-full overflow-hidden rounded-xl border border-white/10 bg-[#050a18]">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_110%_at_10%_0%,rgba(56,189,248,0.2),transparent_45%),radial-gradient(100%_90%_at_90%_100%,rgba(99,102,241,0.18),transparent_52%)]" />
+
+      {kind === 'claridad' && (
+        <>
+          <div className="absolute left-6 top-8 h-10 w-10 rounded-full bg-sky-300/50 blur-md animate-saas-float" />
+          <div className="absolute right-12 top-4 h-16 w-16 rounded-full border-2 border-indigo-300/45" />
+          <div className="absolute left-16 top-12 h-20 w-28 rotate-[-14deg] rounded-[999px] border-2 border-sky-300/70 animate-[spin_11s_linear_infinite]" />
+          <div className="absolute right-20 top-16 h-2 w-20 rounded-full bg-cyan-200/80 animate-mock-float" />
+        </>
+      )}
+
+      {kind === 'experiencia3d' && (
+        <>
+          <div className="absolute left-1/2 top-8 h-16 w-16 -translate-x-1/2 rotate-45 border border-violet-300/65 bg-violet-400/12 animate-saas-float" />
+          <div className="absolute left-1/2 top-11 h-16 w-16 -translate-x-1/2 rotate-45 border border-sky-300/70 bg-sky-300/12 animate-saas-float-reverse" />
+          <div className="absolute left-[20%] top-[66%] h-1.5 w-1.5 rounded-full bg-cyan-300 animate-mock-float" />
+          <div className="absolute right-[20%] top-[30%] h-1.5 w-1.5 rounded-full bg-violet-300 animate-saas-float-reverse" />
+        </>
+      )}
+
+      {kind === 'infraestructura' && (
+        <>
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="absolute left-1/2 h-7 w-40 -translate-x-1/2 rounded-md border border-cyan-200/35 bg-cyan-300/10"
+              style={{ top: `${26 + i * 24}px` }}
+            >
+              <div
+                className="absolute left-3 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-cyan-300"
+                style={{ animation: `mock-float ${3.6 + i * 0.4}s ease-in-out infinite` }}
+              />
+              <div className="absolute left-9 right-3 top-1/2 h-[2px] -translate-y-1/2 rounded-full bg-cyan-100/70" />
+            </div>
+          ))}
+        </>
+      )}
+
+      {kind === 'conversion' && (
+        <>
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="absolute top-1/2 h-9 w-9 -translate-y-1/2 rounded-full border border-emerald-200/60 bg-emerald-300/15"
+              style={{ left: `${20 + i * 28}%` }}
+            />
+          ))}
+          <div className="absolute left-[27%] right-[24%] top-1/2 h-1 -translate-y-1/2 rounded-full bg-emerald-200/65" />
+          <div className="absolute left-[27%] top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-emerald-200 animate-saas-float" />
+          <div className="absolute left-[44%] top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-emerald-200/85 animate-saas-float-reverse" />
+          <div className="absolute left-[60%] top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-emerald-200/75 animate-mock-float" />
+        </>
+      )}
+
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#02040a]/78 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute bottom-2 left-3 text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: accent }}>
+        Sistema Visual
+      </div>
+    </div>
+  );
+}
+
 const items = [
   {
     num: '01',
@@ -60,6 +127,7 @@ const items = [
     proofHint: 'Menos rebote, más intención real',
     highlights: ['Hero con propuesta clara', 'Jerarquía visual enfocada', 'Microcopys que empujan acción'],
     microcopy: 'Tu web deja de ser "bonita" y empieza a trabajar como vendedor.',
+    visual: 'claridad' as MobileVisualKind,
     Icon: IconLayers,
     accent: '#6366f1',
     glow: 'rgba(99,102,241,0.08)',
@@ -74,6 +142,7 @@ const items = [
     proofHint: 'Memorable, diferenciador y técnicamente sólido',
     highlights: ['Objetos 3D a medida del rubro', 'Animación ligada al scroll', 'Demo interactiva del producto'],
     microcopy: 'Tu servicio explicado sin texto: el cliente lo ve, lo entiende, lo quiere.',
+    visual: 'experiencia3d' as MobileVisualKind,
     Icon: IconCube,
     accent: '#f59e0b',
     glow: 'rgba(245,158,11,0.08)',
@@ -88,6 +157,7 @@ const items = [
     proofHint: 'Velocidad, seguridad y deploy controlado',
     highlights: ['Dominio + SSL + DNS', 'Deploy y backups', 'Optimización de carga inicial'],
     microcopy: 'Sin cuellos de botella técnicos cuando empiecen a llegar consultas.',
+    visual: 'infraestructura' as MobileVisualKind,
     Icon: IconServer,
     accent: '#0ea5e9',
     glow: 'rgba(14,165,233,0.08)',
@@ -102,6 +172,7 @@ const items = [
     proofHint: 'Menos ruido, más clientes potenciales',
     highlights: ['CTAs con intención comercial', 'Mensajes prearmados', 'Flujos de contacto sin fricción'],
     microcopy: 'Cada pantalla existe para mover a la persona al siguiente paso.',
+    visual: 'conversion' as MobileVisualKind,
     Icon: IconChat,
     accent: '#10b981',
     glow: 'rgba(16,185,129,0.08)',
@@ -122,12 +193,14 @@ const TIMINGS = [
 
 export function NosEncargamosGrid() {
   const sectionRef = useRef<HTMLElement>(null);
+  const mobileTrackRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([null, null, null, null]);
   const dotRefs = useRef<(HTMLSpanElement | null)[]>([null, null, null, null]);
   const progressRef = useRef(0);
+  const [mobileActive, setMobileActive] = useState(0);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -195,6 +268,32 @@ export function NosEncargamosGrid() {
     };
   }, []);
 
+  useEffect(() => {
+    const track = mobileTrackRef.current;
+    if (!track) return;
+    const cards = Array.from(track.querySelectorAll('[data-mobile-card="1"]')) as HTMLElement[];
+    if (!cards.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let bestRatio = 0;
+        let bestIndex = mobileActive;
+        entries.forEach((entry) => {
+          const idx = Number((entry.target as HTMLElement).dataset.index ?? 0);
+          if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
+            bestRatio = entry.intersectionRatio;
+            bestIndex = idx;
+          }
+        });
+        if (bestRatio > 0.55) setMobileActive(bestIndex);
+      },
+      { root: track, threshold: [0.55, 0.7, 0.85] },
+    );
+
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, [mobileActive]);
+
   return (
     <>
       <section className="relative overflow-hidden bg-[#000008] px-4 py-14 sm:px-6 lg:hidden">
@@ -203,59 +302,69 @@ export function NosEncargamosGrid() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_85%_at_50%_50%,transparent_55%,rgba(0,0,8,0.72)_100%)]" />
 
         <div className="relative z-10 mx-auto max-w-3xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-cyan-400/55">Nuestro enfoque</p>
-          <h2 className="mt-3 font-display text-[clamp(2.3rem,10.6vw,2.85rem)] font-black leading-[1.04] tracking-tight text-white">
+          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.28em] text-cyan-400/55">Nuestro enfoque</p>
+          <h2 className="mt-3 text-center font-display text-[clamp(2.3rem,10.6vw,2.85rem)] font-black leading-[1.04] tracking-tight text-white">
             Nos encargamos de todo.
           </h2>
-          <p className="mt-3 max-w-[34ch] text-[14px] leading-relaxed text-slate-300">
+          <p className="mx-auto mt-3 max-w-[34ch] text-center text-[14px] leading-relaxed text-slate-300">
             No vendemos páginas lindas: construimos una máquina de captación con diseño, sistema y conversión.
           </p>
+          <p className="mt-5 text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+            Deslizá hacia la derecha
+          </p>
 
-          <div className="mt-7 space-y-4">
-            {items.map(({ title, description, highlights, Icon, accent, num, phase, proofLabel, proofValue, proofHint, microcopy }) => (
-              <article key={title} className="relative rounded-2xl border border-cyan-100/28 bg-black/64 p-4 shadow-[0_24px_70px_-34px_rgba(8,145,178,0.7)] backdrop-blur-xl">
+          <div
+            ref={mobileTrackRef}
+            className="mt-5 -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {items.map(({ title, description, Icon, accent, num, phase, proofLabel, proofValue, proofHint, visual }, i) => (
+              <article
+                key={title}
+                data-mobile-card="1"
+                data-index={i}
+                dir="ltr"
+                className="relative w-[86vw] max-w-[430px] shrink-0 snap-center rounded-2xl border border-cyan-100/28 bg-black/64 p-4 shadow-[0_24px_70px_-34px_rgba(8,145,178,0.7)] backdrop-blur-xl"
+              >
                 <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/8" />
-                <div className="relative flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <p className="font-mono text-[10px] tracking-[0.28em] text-white/28">{num} / 04</p>
-                    <span
-                      className="rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.16em]"
-                      style={{ borderColor: `${accent}4d`, color: accent, background: `${accent}12` }}
-                    >
-                      {phase}
-                    </span>
-                  </div>
+
+                <MobileCardVisual kind={visual} accent={accent} />
+
+                <div className="relative flex items-center justify-center gap-2 text-center">
+                  <p className="font-mono text-[10px] tracking-[0.28em] text-white/28">{num} / 04</p>
+                  <span
+                    className="rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.16em]"
+                    style={{ borderColor: `${accent}4d`, color: accent, background: `${accent}12` }}
+                  >
+                    {phase}
+                  </span>
+                </div>
+                <div className="relative mt-3 flex justify-center">
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg border" style={{ borderColor: `${accent}40`, background: `${accent}16`, color: accent }}>
                     <Icon className="h-4 w-4" />
                   </div>
                 </div>
 
-                <h3 className="relative mt-4 text-[1.38rem] font-black leading-tight tracking-tight text-white">{title}</h3>
-                <p className="relative mt-2 text-[13px] leading-relaxed text-slate-300">{description}</p>
+                <h3 className="relative mt-4 text-center text-[1.38rem] font-black leading-tight tracking-tight text-white">{title}</h3>
+                <p className="relative mt-2 text-center text-[13px] leading-relaxed text-slate-300">{description}</p>
 
-                <div className="relative mt-4 grid gap-3">
+                <div className="relative mt-4">
                   <div className="rounded-xl border border-cyan-100/20 bg-white/[0.08] p-3.5">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">{proofLabel}</p>
-                    <p className="mt-1 text-lg font-black text-white">{proofValue}</p>
-                    <p className="mt-1 text-[12px] text-slate-300">{proofHint}</p>
+                    <p className="text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">{proofLabel}</p>
+                    <p className="mt-1 text-center text-lg font-black text-white">{proofValue}</p>
+                    <p className="mt-1 text-center text-[12px] text-slate-300">{proofHint}</p>
                   </div>
-                  <div className="rounded-xl border border-cyan-100/18 bg-black/42 p-3.5">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">Entregables clave</p>
-                    <ul className="mt-2.5 space-y-1.5">
-                      {highlights.map((h) => (
-                        <li key={h} className="flex items-start gap-2 text-[12px] text-slate-300">
-                          <span className="mt-[6px] h-1.5 w-1.5 rounded-full" style={{ background: accent }} />
-                          <span>{h}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="relative mt-4 border-t border-white/10 pt-3.5">
-                  <p className="text-[12px] font-medium text-slate-300">{microcopy}</p>
                 </div>
               </article>
+            ))}
+          </div>
+
+          <div className="mt-5 flex items-center justify-center gap-2">
+            {items.map((item, i) => (
+              <span
+                key={item.title}
+                className="h-1.5 rounded-full bg-cyan-300/80 transition-all duration-300"
+                style={{ width: mobileActive === i ? 28 : 8, opacity: mobileActive === i ? 1 : 0.28 }}
+              />
             ))}
           </div>
         </div>

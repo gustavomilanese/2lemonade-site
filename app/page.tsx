@@ -59,14 +59,14 @@ export default function Home() {
 
       <main className="relative z-10">
         <SaturnScrollSection />
-        <RecorridoSection />
         <NosEncargamosGrid />
+        <RecorridoSection />
 
         <div className="relative -mt-8 sm:-mt-20">
           <MoonOrbitLayer>
-            <div className="grid mt-12 sm:mt-20 lg:grid-cols-[46%_54%]">
+            <div className="mt-12 sm:mt-20 lg:grid lg:grid-cols-[42%_58%]">
               <div className="hidden lg:block" aria-hidden />
-              <section className="px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16 lg:pr-10">
+              <section className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:mx-0 lg:max-w-none lg:px-8 lg:py-16 lg:pr-10">
                 <IdealWebTierCards infoHref={mailto("Más información: planes web")} />
               </section>
             </div>

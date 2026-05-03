@@ -1,0 +1,20 @@
+<svg width="960" height="540" viewBox="0 0 960 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="40" x2="860" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0D1330"/>
+      <stop offset="0.55" stop-color="#121F4A"/>
+      <stop offset="1" stop-color="#1A2E66"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="280" y1="170" x2="690" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#65A8FF"/>
+      <stop offset="1" stop-color="#8A6BFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" rx="40" fill="url(#bg)"/>
+  <rect x="62" y="62" width="836" height="416" rx="28" fill="#080D20" fill-opacity="0.58" stroke="#8FB8FF" stroke-opacity="0.38" stroke-width="2"/>
+  <path d="M240 280C287 215 348 184 422 186C504 188 573 225 627 302" stroke="url(#ring)" stroke-opacity="0.9" stroke-width="18" stroke-linecap="round"/>
+  <path d="M258 319C316 262 382 236 457 239C522 242 579 270 629 320" stroke="#6FE0FF" stroke-opacity="0.78" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="699" cy="220" r="16" fill="#6FE0FF"/>
+  <circle cx="699" cy="220" r="34" stroke="#6FE0FF" stroke-opacity="0.38" stroke-width="2"/>
+  <text x="102" y="436" fill="#DCEAFF" fill-opacity="0.9" font-family="Arial, sans-serif" font-size="40" font-weight="700">Mensaje Claro</text>
+</svg>

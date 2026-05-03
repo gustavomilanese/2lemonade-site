@@ -1,0 +1,23 @@
+<svg width="960" height="540" viewBox="0 0 960 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="130" y1="30" x2="880" y2="510" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#150D24"/>
+      <stop offset="0.58" stop-color="#24143F"/>
+      <stop offset="1" stop-color="#38205F"/>
+    </linearGradient>
+    <linearGradient id="cube" x1="380" y1="180" x2="600" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#A6D6FF"/>
+      <stop offset="0.5" stop-color="#7A8CFF"/>
+      <stop offset="1" stop-color="#D88CFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" rx="40" fill="url(#bg)"/>
+  <rect x="62" y="62" width="836" height="416" rx="28" fill="#0B0617" fill-opacity="0.56" stroke="#B8A0FF" stroke-opacity="0.34" stroke-width="2"/>
+  <path d="M480 166L626 246L480 326L334 246L480 166Z" fill="url(#cube)" fill-opacity="0.32" stroke="#D6C4FF" stroke-width="3"/>
+  <path d="M334 246V330L480 410L626 330V246" stroke="#A8E7FF" stroke-opacity="0.88" stroke-width="3"/>
+  <path d="M480 326V410" stroke="#A8E7FF" stroke-opacity="0.82" stroke-width="3"/>
+  <circle cx="260" cy="206" r="7" fill="#7EDBFF"/>
+  <circle cx="700" cy="330" r="7" fill="#CF9BFF"/>
+  <circle cx="630" cy="174" r="5" fill="#7EDBFF"/>
+  <text x="102" y="436" fill="#EFE5FF" fill-opacity="0.92" font-family="Arial, sans-serif" font-size="40" font-weight="700">Impacto 3D</text>
+</svg>
