@@ -122,6 +122,10 @@ export default function Home() {
                 Email
               </a>
             </div>
+            <div className="space-y-1 text-center text-sm leading-relaxed text-slate-300/90">
+              <p>13A 12th Avenue, Stock Island, Key West, Florida 33040</p>
+              <p>Juan B Justo 3646, Buenos Aires, Argentina 1879</p>
+            </div>
           </div>
         </footer>
       </main>
